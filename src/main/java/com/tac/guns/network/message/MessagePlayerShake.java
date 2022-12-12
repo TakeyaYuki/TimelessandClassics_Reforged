@@ -56,7 +56,6 @@ public class MessagePlayerShake implements IMessage
         supplier.get().setPacketHandled(true);
         if(supplier.get().getDirection() != NetworkDirection.PLAY_TO_CLIENT)
             return;
-
         Minecraft.getInstance().deferTask(() ->
         {
             fromMessage();

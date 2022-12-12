@@ -1,32 +1,30 @@
 package com.tac.guns.common;
 
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
-import com.sun.jna.platform.win32.WinNT;
 import com.tac.guns.Reference;
+import com.tac.guns.client.handler.HUDRenderingHandler;
 import com.tac.guns.init.ModSyncedDataKeys;
+import com.tac.guns.inventory.gear.InventoryListener;
+import com.tac.guns.inventory.gear.armor.ArmorRigInventoryCapability;
+import com.tac.guns.inventory.gear.armor.RigSlotsHandler;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageGunSound;
+import com.tac.guns.network.message.MessageRigInvToClient;
 import com.tac.guns.util.GunEnchantmentHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.lang.reflect.Array;
 import java.util.Map;
-import java.util.UUID;
 import java.util.WeakHashMap;
 
 /**
@@ -88,6 +86,8 @@ public class ReloadTracker
     {
         boolean reload;
         Gun gun = ((GunItem)this.stack.getItem()).getGun();
+        //ArmorRigInventoryCapability itemHandler = (ArmorRigInventoryCapability) this.stack.getCapability(InventoryListener.RIG_HANDLER_CAPABILITY).resolve().get();
+        //PacketHandler.getPlayChannel().sendToServer(new MessageRigInvToClient(itemHandler.serializeNBT()));
         if(gun.getReloads().isMagFed())
         {
             if(this.isWeaponEmpty())
@@ -135,6 +135,9 @@ public class ReloadTracker
         }
     }
 
+
+
+    // Does not account for rigs due to ServerToClient
     public static int calcMaxReserveAmmo(ItemStack[] ammoStacks)
     {
         int result = 0;
@@ -143,9 +146,23 @@ public class ReloadTracker
         return result;
     }
 
+    private static boolean isAmmo(ItemStack stack, ResourceLocation id)
+    {
+        return stack != null && stack.getItem().getRegistryName().equals(id);
+    }
+    public static int calcMaxReserveAmmoChecked(ItemStack[] ammoStacks, ResourceLocation id)
+    {
+        int result = 0;
+        for (ItemStack x: ammoStacks)
+            if(isAmmo(x, id))
+                result+=x.getCount();
+        return result;
+    }
+
     private void shrinkFromAmmoPool(ItemStack[] ammoStacks, int shrinkAmount)
     {
         int shrinkAmt = shrinkAmount;
+        //HUDRenderingHandler.get().updateRigAndHuD_ReserveCounter();
         for (ItemStack x: ammoStacks)
         {
             if(!x.isEmpty())
@@ -157,6 +174,7 @@ public class ReloadTracker
             if(shrinkAmt==0)
                 return;
         }
+
     }
 
     private void increaseMagAmmo(PlayerEntity player)

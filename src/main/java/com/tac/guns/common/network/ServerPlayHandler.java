@@ -18,8 +18,10 @@ import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.init.ModItems;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.interfaces.IProjectileFactory;
+import com.tac.guns.inventory.gear.InventoryListener;
+import com.tac.guns.inventory.gear.armor.ArmorRigInventoryCapability;
+import com.tac.guns.inventory.gear.armor.RigSlotsHandler;
 import com.tac.guns.item.GunItem;
-import com.tac.guns.item.IArmorPlate;
 import com.tac.guns.item.IColored;
 import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
@@ -40,7 +42,6 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.DyeItem;
@@ -61,7 +62,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
@@ -688,6 +688,13 @@ public class ServerPlayHandler
     {
         if(!player.isAlive())
             return;
+        // TODO: TEMP CODE TO CHECK SERVER TO CLIENT FUNCTIONALITY FOR RIG INV, I WANNA DO SO WITHOUT HURTING NETWORK PERF.
+        if(WearableHelper.PlayerWornRig(player) != null)
+        {
+            ArmorRigInventoryCapability itemHandler = (ArmorRigInventoryCapability) WearableHelper.PlayerWornRig(player).getCapability(InventoryListener.RIG_HANDLER_CAPABILITY).resolve().get();
+            PacketHandler.getPlayChannel().sendToServer(new MessageRigInvToClient(itemHandler.serializeNBT()));
+        }
+
         if(NetworkGunManager.get() != null && NetworkGunManager.get().StackIds != null) {
             if (player.getHeldItemMainhand().getItem() instanceof TimelessGunItem && player.getHeldItemMainhand().getTag() != null) {
                 if (regenerate||!player.getHeldItemMainhand().getTag().contains("ID")) {
@@ -770,7 +777,11 @@ public class ServerPlayHandler
                     // I hate this last part, this is used in order to reset the TileRenderer,
                     // without this the item stack is added, but the visual is only reset on
                     // entering GUI, gotta Check what Yor said about this portion.
-                    NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
+
+
+                    // TODO: Review why it was protected void in the first place and if I can still use this for a new toClient method, I need this to keep track of ammo counts
+                    ((UpgradeBenchTileEntity) tileEntity).syncToClient();
+                    //NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
                     player.closeScreen();
                 }
             }
@@ -839,4 +850,6 @@ public class ServerPlayHandler
             }
         }
     }
+
+
 }

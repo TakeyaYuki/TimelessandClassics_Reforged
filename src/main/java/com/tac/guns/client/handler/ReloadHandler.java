@@ -11,9 +11,7 @@ import com.tac.guns.event.GunReloadEvent;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.network.PacketHandler;
-import com.tac.guns.network.message.MessageReload;
-import com.tac.guns.network.message.MessageUnload;
-import com.tac.guns.network.message.MessageUpdateGunID;
+import com.tac.guns.network.message.*;
 import com.tac.guns.util.GunEnchantmentHelper;
 
 import net.minecraft.client.Minecraft;
@@ -215,6 +213,7 @@ public class ReloadHandler {
 			if( stack.getItem() instanceof GunItem )
 			{
 				PacketHandler.getPlayChannel().sendToServer( new MessageUpdateGunID() );
+                //PacketHandler.getPlayChannel().sendToServer(new MessageRigInvToClient());
 				if( !SyncedPlayerData.instance().get( player, ModSyncedDataKeys.RELOADING ) )
 					this.setReloading( true );
 				else if(
@@ -222,6 +221,7 @@ public class ReloadHandler {
 						instanceof PumpShotgunAnimationController
 				) {
                     this.setReloading( false );
+                    //HUDRenderingHandler.get().updateRigAndHuD_ReserveCounter();
                 }
 			}
 		} );
@@ -297,6 +297,9 @@ public class ReloadHandler {
                         }
                         if (MinecraftForge.EVENT_BUS.post(new GunReloadEvent.Pre(player, stack)))
                             return;
+
+                        //HUDRenderingHandler.get().updateRigAndHuD_ReserveCounter();
+
                         SyncedPlayerData.instance().set(player, ModSyncedDataKeys.RELOADING, true);
                         PacketHandler.getPlayChannel().sendToServer(new MessageReload(true));
                         AnimationHandler.INSTANCE.onGunReload(true, stack);
