@@ -14,7 +14,7 @@
     "recoilAdsReduction": 0.275,
     "weaponRecoilOffset": 0.725,
     "recoilDuration": 0.185,
-    "cameraRecoilModifier": 0.625,
+    "cameraRecoilModifier": 1.295,
     "projectileAmount": 12,
     "weightKilo": 5.0,
 
