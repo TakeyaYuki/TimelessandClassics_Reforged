@@ -17,7 +17,7 @@
     "hipFireInaccuracy": 14.5,
     "projToMinAccuracy": 2,
     "msToAccuracyReset": 0,
-    "movementInaccuracy": 4.15
+    "movementInaccuracy": 1.95
   },
   "reloads": {
     "magFed": true,
