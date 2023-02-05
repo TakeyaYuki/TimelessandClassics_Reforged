@@ -18,7 +18,7 @@
     "hipFireInaccuracy": 6.85,
     "projToMinAccuracy": 6,
     "msToAccuracyReset": 1100,
-    "movementInaccuracy": 1.5
+    "movementInaccuracy": 0.7
   },
   "projectile": {
     "item":  "tac:762x39",
