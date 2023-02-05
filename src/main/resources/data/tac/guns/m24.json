@@ -12,12 +12,12 @@
     "cameraRecoilModifier": 2.0,
     "weightKilo": 4.0,
 
-    "spread": 0.225,
+    "spread": 0.015,
     "firstShotSpread": 0.015,
-    "hipFireInaccuracy": 8.75,
-    "projToMinAccuracy": 1,
-    "msToAccuracyReset": 1100,
-    "movementInaccuracy": 0.275
+    "hipFireInaccuracy": 14.5,
+    "projToMinAccuracy": 2,
+    "msToAccuracyReset": 0,
+    "movementInaccuracy": 4.15
   },
   "reloads": {
     "magFed": true,
@@ -34,10 +34,10 @@
   "projectile": {
     "item": "tac:win_30-30",
     "visible": false,
-    "damage": 26,
+    "damage": 24,
     "size": 0.2,
-    "speed": 60.0,
-    "life": 22
+    "speed": 85.5,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.m24",

@@ -17,12 +17,12 @@
     "recoilDuration": 0.185,
     "weightKilo": 2.65,
 
-    "spread": 1.375,
-    "firstShotSpread": 0.0925,
-    "hipFireInaccuracy": 4.05,
+    "spread": 1.85,
+    "firstShotSpread": 0.115,
+    "hipFireInaccuracy": 4.95,
     "projToMinAccuracy": 6,
-    "msToAccuracyReset": 140,
-    "movementInaccuracy": 0.225
+    "msToAccuracyReset": 480,
+    "movementInaccuracy": 0.425
   },
   "reloads": {
     "magFed": true,
@@ -41,8 +41,8 @@
     "visible": false,
     "damage": 6.5,
     "size": 0.1,
-    "speed": 22.5,
-    "life": 14
+    "speed": 27.5,
+    "life": 8
   },
   "sounds": {
     "fire": "tac:item.ar15_fire",

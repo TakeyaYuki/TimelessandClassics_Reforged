@@ -13,12 +13,12 @@
     "recoilDuration": 0.205,
     "weightKilo": 2.1,
 
-    "spread": 2.375,
-    "firstShotSpread": 0.175,
-    "hipFireInaccuracy": 1.5,
-    "projToMinAccuracy": 8,
-    "msToAccuracyReset": 120,
-    "movementInaccuracy": 0.175
+    "spread": 2.525,
+    "firstShotSpread": 0.145,
+    "hipFireInaccuracy": 2.65,
+    "projToMinAccuracy": 6,
+    "msToAccuracyReset": 540,
+    "movementInaccuracy": 0.195
   },
   "reloads": {
     "magFed": true,
@@ -32,8 +32,8 @@
     "item": "tac:9mm_round",
     "visible": false,
     "damage": 5,
-    "speed": 30.5,
-    "life": 7,
+    "speed": 14.5,
+    "life": 8,
     "ricochet": true
   },
   "sounds": {

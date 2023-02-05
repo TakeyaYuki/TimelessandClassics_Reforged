@@ -17,19 +17,19 @@
     "recoilDuration": 0.29,
     "weightKilo": 5.60,
 
-    "spread": 1.35,
+    "spread": 1.8,
     "firstShotSpread": 0.105,
-    "hipFireInaccuracy": 5.75,
-    "projToMinAccuracy": 3,
-    "msToAccuracyReset": 200,
+    "hipFireInaccuracy": 5.25,
+    "projToMinAccuracy": 4,
+    "msToAccuracyReset": 600,
     "movementInaccuracy": 0.65
   },
   "projectile": {
     "item": "tac:nato_556_bullet",
     "visible": false,
-    "damage": 8.5,
+    "damage": 8.6,
     "size": 0.2,
-    "speed": 30,
+    "speed": 25,
     "life": 9
   },
   "reloads": {

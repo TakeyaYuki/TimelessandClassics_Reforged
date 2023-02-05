@@ -15,12 +15,12 @@
     "cameraRecoilModifier": 1.325,
     "weightKilo": 2.5,
 
-    "spread": 3.375,
-    "firstShotSpread": 0.425,
-    "hipFireInaccuracy": 1.05,
-    "projToMinAccuracy": 7,
-    "msToAccuracyReset": 350,
-    "movementInaccuracy": 0.125
+    "spread": 2.975,
+    "firstShotSpread": 0.225,
+    "hipFireInaccuracy": 2.95,
+    "projToMinAccuracy": 6,
+    "msToAccuracyReset": 720,
+    "movementInaccuracy": 0.285
   },
   "reloads": {
     "magFed": true,
@@ -34,9 +34,9 @@
   "projectile": {
     "item": "tac:9mm_round",
     "visible": false,
-    "damage": 4.0,
-    "speed": 16.5,
-    "life": 8
+    "damage": 3.35,
+    "speed": 12.5,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_glock",

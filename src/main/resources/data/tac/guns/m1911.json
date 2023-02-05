@@ -15,12 +15,12 @@
     "recoilDuration": 0.28,
     "weightKilo": 1.2,
 
-    "spread": 1.25,
+    "spread": 2.35,
     "firstShotSpread": 0.205,
-    "hipFireInaccuracy": 4.15,
+    "hipFireInaccuracy": 2.25,
     "projToMinAccuracy": 2,
-    "msToAccuracyReset": 640,
-    "movementInaccuracy": 0.625
+    "msToAccuracyReset": 280,
+    "movementInaccuracy": 0.245
   },
   "reloads": {
     "magFed": true,
@@ -37,10 +37,10 @@
   "projectile": {
     "item": "tac:round45",
     "visible": false,
-    "damage": 9.0,
+    "damage": 7.75,
     "size": 0.2,
-    "speed": 13.0,
-    "life": 8
+    "speed": 17.5,
+    "life": 5
   },
   "sounds": {
     "fire": "tac:item.m1911_fire",

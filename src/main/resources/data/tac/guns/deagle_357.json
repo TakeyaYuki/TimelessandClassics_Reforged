@@ -15,11 +15,11 @@
     "recoilDuration": 0.1175,
     "weightKilo": 2.4,
 
-    "spread": 0.825,
+    "spread": 1.45,
     "firstShotSpread": 0.085,
-    "hipFireInaccuracy": 3.6,
-    "projToMinAccuracy": 2,
-    "msToAccuracyReset": 330,
+    "hipFireInaccuracy": 4.65,
+    "projToMinAccuracy": 3,
+    "msToAccuracyReset": 660,
     "movementInaccuracy": 0.25
   },
   "reloads": {
@@ -37,10 +37,10 @@
   "projectile": {
     "item": "tac:ae50",
     "visible": false,
-    "damage": 16,
+    "damage": 14.75,
     "size": 0.2,
-    "speed": 18.0,
-    "life": 32
+    "speed": 30,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.deagle_fire",

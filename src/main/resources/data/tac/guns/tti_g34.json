@@ -15,11 +15,11 @@
     "weightKilo": 1.7,
 
     "spread": 2.15,
-    "firstShotSpread": 0.16,
-    "hipFireInaccuracy": 2.65,
+    "firstShotSpread": 0.175,
+    "hipFireInaccuracy": 1.65,
     "projToMinAccuracy": 4,
     "msToAccuracyReset": 250,
-    "movementInaccuracy": 0.225
+    "movementInaccuracy": 0.15
   },
   "reloads": {
     "magFed": true,
@@ -36,10 +36,10 @@
   "projectile": {
     "item": "tac:9mm_round",
     "visible": false,
-    "damage": 5.5,
+    "damage": 4.15,
     "size": 0.2,
     "speed": 20.0,
-    "life": 4
+    "life": 5
   },
   "sounds": {
     "fire": "tac:item.fire_glock",

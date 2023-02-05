@@ -21,7 +21,7 @@
     "hipFireInaccuracy": 1.25,
     "projToMinAccuracy": 2,
     "msToAccuracyReset": 420,
-    "movementInaccuracy": 0.0
+    "movementInaccuracy": 0.15
   },
   "reloads": {
     "magFed": false,
@@ -37,7 +37,7 @@
     "damage": 24.5,
     "size": 0.3,
     "speed": 23.5,
-    "life": 4,
+    "life": 2,
     "ricochet": false
   },
   "sounds": {

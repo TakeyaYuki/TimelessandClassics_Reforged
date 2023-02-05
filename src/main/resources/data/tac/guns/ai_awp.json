@@ -16,12 +16,12 @@
     "cameraRecoilModifier": 1.325,
     "weightKilo": 6.0,
 
-    "spread": 1.0,
+    "spread": 0.002,
     "firstShotSpread": 0.002,
-    "hipFireInaccuracy": 11.45,
+    "hipFireInaccuracy": 17.5,
     "projToMinAccuracy": 2,
-    "msToAccuracyReset": 100,
-    "movementInaccuracy": 3.0
+    "msToAccuracyReset": 0,
+    "movementInaccuracy": 4.75
   },
   "reloads": {
     "magFed": true,

@@ -17,20 +17,20 @@
     "recoilDuration": 0.2175,
     "weightKilo": 5.75,
 
-    "spread": 0.625,
-    "firstShotSpread": 0.105,
-    "hipFireInaccuracy": 5.75,
+    "spread": 2.35,
+    "firstShotSpread": 0.115,
+    "hipFireInaccuracy": 6.45,
     "projToMinAccuracy": 2,
-    "msToAccuracyReset": 430,
-    "movementInaccuracy": 0.575
+    "msToAccuracyReset": 860,
+    "movementInaccuracy": 1.35
   },
   "projectile": {
     "item": "tac:bullet_308",
     "visible": false,
-    "damage": 14,
+    "damage": 8.7,
     "size": 0.2,
-    "speed": 26.5,
-    "life": 12,
+    "speed": 27.5,
+    "life": 9,
     "trailLengthMultiplier": 4.05
   },
   "reloads": {

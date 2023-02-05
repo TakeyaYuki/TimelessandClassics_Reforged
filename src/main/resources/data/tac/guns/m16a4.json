@@ -18,12 +18,12 @@
     "recoilDuration": 0.185,
     "weightKilo": 4.8,
 
-    "spread": 0.925,
-    "firstShotSpread": 0.125,
-    "hipFireInaccuracy": 4.75,
-    "projToMinAccuracy": 5,
+    "spread": 2.65,
+    "firstShotSpread": 0.145,
+    "hipFireInaccuracy": 5.25,
+    "projToMinAccuracy": 4,
     "msToAccuracyReset": 900,
-    "movementInaccuracy": 0.475
+    "movementInaccuracy": 0.6
   },
   "reloads": {
     "magFed": true,
@@ -40,10 +40,10 @@
   "projectile": {
     "item": "tac:nato_556_bullet",
     "visible": false,
-    "damage": 7.0,
+    "damage": 6.2,
     "size": 0.1,
-    "speed": 34.5,
-    "life": 10,
+    "speed": 25.5,
+    "life": 8,
     "ricochet": true
   },
   "sounds": {

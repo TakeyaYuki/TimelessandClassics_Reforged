@@ -15,12 +15,12 @@
     "projectileAmount": 11,
     "weightKilo": 2.1,
 
-    "spread": 12.5,
-    "firstShotSpread": 12.5,
-    "hipFireInaccuracy": 1,
+    "spread": 12.55,
+    "firstShotSpread": 11.25,
+    "hipFireInaccuracy": 1.2,
     "projToMinAccuracy": 1,
-    "msToAccuracyReset": 430,
-    "movementInaccuracy": 0.25
+    "msToAccuracyReset": 500,
+    "movementInaccuracy": 0.2
   },
   "reloads": {
     "magFed": true,
@@ -39,7 +39,7 @@
     "visible": false,
     "damage": 24,
     "size": 1.0,
-    "speed": 30.5,
+    "speed": 18.5,
     "life": 2,
     "ricochet": false
   },

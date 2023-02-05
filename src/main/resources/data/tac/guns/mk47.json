@@ -17,20 +17,20 @@
     "recoilDuration": 0.135,
     "weightKilo": 4.3,
 
-    "spread": 1.775,
-    "firstShotSpread": 0.115,
-    "hipFireInaccuracy": 6.25,
-    "projToMinAccuracy": 4,
-    "msToAccuracyReset": 220,
-    "movementInaccuracy": 0.35
+    "spread": 1.95,
+    "firstShotSpread": 0.135,
+    "hipFireInaccuracy": 5.35,
+    "projToMinAccuracy": 5,
+    "msToAccuracyReset": 560,
+    "movementInaccuracy": 0.55
   },
   "projectile": {
     "item": "tac:762x39",
     "visible": false,
     "damage": 7.75,
     "size": 0.2,
-    "speed": 20.0,
-    "life": 11
+    "speed": 29.5,
+    "life": 8
   },
   "reloads": {
     "magFed": true,

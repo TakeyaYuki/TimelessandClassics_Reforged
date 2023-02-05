@@ -19,12 +19,12 @@
     "recoilDuration": 0.1375,
     "weightKilo": 1.45,
 
-    "spread": 1.8,
-    "firstShotSpread": 0.155,
-    "hipFireInaccuracy": 3.2,
-    "projToMinAccuracy": 9,
-    "msToAccuracyReset": 130,
-    "movementInaccuracy": 0.225
+    "spread": 2.425,
+    "firstShotSpread": 0.195,
+    "hipFireInaccuracy": 2.95,
+    "projToMinAccuracy": 4,
+    "msToAccuracyReset": 600,
+    "movementInaccuracy": 0.175
   },
   "reloads": {
     "magFed": true,
@@ -40,8 +40,8 @@
     "visible": false,
     "damage": 7.0,
     "size": 0.225,
-    "speed": 11.5,
-    "life": 19,
+    "speed": 10.5,
+    "life": 9,
     "trailLengthMultiplier": 4.05
   },
   "sounds": {
