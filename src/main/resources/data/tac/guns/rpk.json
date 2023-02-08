@@ -15,10 +15,10 @@
 
     "spread": 0.545,
     "firstShotSpread": 0.125,
-    "hipFireInaccuracy": 6.85,
+    "hipFireInaccuracy": 5.85,
     "projToMinAccuracy": 6,
     "msToAccuracyReset": 1100,
-    "movementInaccuracy": 0.7
+    "movementInaccuracy": 0.55
   },
   "projectile": {
     "item":  "tac:762x39",

@@ -18,10 +18,10 @@
 
     "spread": 0.575,
     "firstShotSpread": 0.135,
-    "hipFireInaccuracy": 7.95,
+    "hipFireInaccuracy": 6.95,
     "projToMinAccuracy": 10,
     "msToAccuracyReset": 1250,
-    "movementInaccuracy": 0.75
+    "movementInaccuracy": 0.6
   },
   "reloads": {
     "magFed": true,
