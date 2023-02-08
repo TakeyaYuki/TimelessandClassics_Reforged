@@ -4,16 +4,11 @@
     {
       "item": {
         "tag": "forge:ingots/iron"
-      }
-    },
-    {
-      "item": {
-        "tag": "forge:gunpowder"
-      }
+      },
+      "count": 82
     }
   ],
   "result": {
-    "item": "tac:round45",
-    "count": 16
+    "item": "tac:fn_fal"
   }
 }

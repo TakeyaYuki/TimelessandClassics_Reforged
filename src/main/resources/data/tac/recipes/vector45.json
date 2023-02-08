@@ -5,21 +5,16 @@
       "item": {
         "tag": "forge:ingots/iron"
       },
-      "count": 12
+      "count": 50
     },
     {
       "item": {
         "tag": "forge:ingots/gold"
-      }
-    },
-    {
-      "item": {
-        "tag": "forge:leather"
       },
-      "count": 2
+      "count": 6
     }
   ],
   "result": {
-    "item": "tac:specialised_grip"
+    "item": "tac:vector45"
   }
 }

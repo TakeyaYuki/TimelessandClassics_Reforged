@@ -5,21 +5,15 @@
       "item": {
         "tag": "forge:ingots/iron"
       },
-      "count": 12
+      "count": 90
     },
     {
       "item": {
-        "tag": "forge:ingots/gold"
+        "tag": "forge:gems/diamond"
       }
-    },
-    {
-      "item": {
-        "tag": "forge:leather"
-      },
-      "count": 2
     }
   ],
   "result": {
-    "item": "tac:specialised_grip"
+    "item": "tac:spr15"
   }
 }

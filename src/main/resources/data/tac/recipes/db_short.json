@@ -9,17 +9,12 @@
     },
     {
       "item": {
-        "tag": "forge:ingots/gold"
-      }
-    },
-    {
-      "item": {
         "tag": "forge:leather"
       },
-      "count": 2
+      "count": 4
     }
   ],
   "result": {
-    "item": "tac:specialised_grip"
+    "item": "tac:db_short"
   }
 }

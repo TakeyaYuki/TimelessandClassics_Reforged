@@ -5,21 +5,16 @@
       "item": {
         "tag": "forge:ingots/iron"
       },
-      "count": 12
+      "count": 32
     },
     {
       "item": {
-        "tag": "forge:ingots/gold"
-      }
-    },
-    {
-      "item": {
-        "tag": "forge:leather"
+        "tag": "forge:glass_panes"
       },
-      "count": 2
+      "count": 24
     }
   ],
   "result": {
-    "item": "tac:specialised_grip"
+    "item": "tac:lpvo_1_6"
   }
 }

@@ -5,17 +5,17 @@
       "item": {
         "tag": "forge:ingots/iron"
       },
-      "count": 40
+      "count": 36
     },
     {
       "item": {
         "tag": "forge:ingots/gold"
       },
-      "count": 10
+      "count": 4
     },
     {
       "item": {
-        "tag": "forge:gems/diamond"
+        "tag": "forge:leather"
       },
       "count": 4
     }

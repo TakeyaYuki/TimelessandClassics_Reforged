@@ -5,7 +5,12 @@
       "item": {
         "tag": "forge:ingots/iron"
       },
-      "count": 10
+      "count": 12
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/gold"
+      }
     }
   ],
   "result": {

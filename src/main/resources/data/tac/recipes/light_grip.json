@@ -6,6 +6,11 @@
         "tag": "forge:ingots/iron"
       },
       "count": 6
+    },
+    {
+      "item": {
+        "tag": "forge:leather"
+      }
     }
   ],
   "result": {
