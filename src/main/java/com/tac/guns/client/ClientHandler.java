@@ -44,8 +44,10 @@ import com.tac.guns.client.screen.TaCSettingsScreen;
 import com.tac.guns.client.screen.UpgradeBenchScreen;
 import com.tac.guns.client.screen.WorkbenchScreen;
 import com.tac.guns.client.settings.GunOptions;
-import com.tac.guns.client.util.UpgradeBenchRenderUtil;
-import com.tac.guns.init.*;
+import com.tac.guns.init.ModBlocks;
+import com.tac.guns.init.ModContainers;
+import com.tac.guns.init.ModEntities;
+import com.tac.guns.init.ModItems;
 import com.tac.guns.item.IColored;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageAttachments;
@@ -81,7 +83,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.VersionChecker;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -124,7 +125,7 @@ public class ClientHandler
             MinecraftForge.EVENT_BUS.register(ObjectRenderEditor.get());
         }
 
-        ClientRegistry.bindTileEntityRenderer(ModTileEntities.UPGRADE_BENCH.get(), UpgradeBenchRenderUtil::new);
+        //ClientRegistry.bindTileEntityRenderer(ModTileEntities.UPGRADE_BENCH.get(), UpgradeBenchRenderUtil::new);
 
         // Load key binds
         InputHandler.initKeys();
@@ -159,7 +160,7 @@ public class ClientHandler
 
     private static void setupRenderLayers()
     {
-        RenderTypeLookup.setRenderLayer(ModBlocks.UPGRADE_BENCH.get(), RenderType.getCutout());
+        //RenderTypeLookup.setRenderLayer(ModBlocks.UPGRADE_BENCH.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.WORKBENCH.get(), RenderType.getCutout());
     }
 
