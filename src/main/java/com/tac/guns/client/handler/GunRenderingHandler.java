@@ -1165,6 +1165,9 @@ public class GunRenderingHandler {
         event.setCanceled(this.renderWeapon(mc.player, event.getItem(), event.getTransformType(), event.getMatrixStack(), event.getRenderTypeBuffer(), event.getLight(), event.getPartialTicks()));
     }
 
+    int testLight = 0;
+    int testLight2= 0;
+
     public boolean renderWeapon(LivingEntity entity, ItemStack stack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, float partialTicks) {
         if (stack.getItem() instanceof GunItem) {
             matrixStack.push();
@@ -1179,7 +1182,8 @@ public class GunRenderingHandler {
             RenderUtil.applyTransformType(model.isEmpty() ? stack : model, matrixStack, transformType, entity);
 
             this.renderGun(entity, transformType, model.isEmpty() ? stack : model, matrixStack, renderTypeBuffer, light, partialTicks);
-            this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, light, partialTicks);
+
+            this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, (15<<20)|(15<<4), partialTicks);
             this.renderMuzzleFlash(entity, matrixStack, renderTypeBuffer, stack, transformType);
 
             matrixStack.pop();

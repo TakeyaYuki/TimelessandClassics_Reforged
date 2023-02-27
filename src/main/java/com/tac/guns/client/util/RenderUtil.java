@@ -2,6 +2,9 @@ package com.tac.guns.client.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.sun.javafx.sg.prism.NodeEffectInput;
+import com.tac.guns.GunMod;
+import com.tac.guns.Reference;
 import com.tac.guns.common.Gun;
 import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.attachment.IAttachment;
@@ -17,11 +20,13 @@ import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.HandSide;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
@@ -97,6 +102,8 @@ public class RenderUtil
         renderModel(model, transformType, null, stack, ItemStack.EMPTY, matrixStack, buffer, light, overlay);
     }
 
+    private static final RenderType RENDER_TYPE = RenderType.getEyes(new ResourceLocation(Reference.MOD_ID,"textures/water_caster.png"));
+
     public static void renderModel(IBakedModel model, ItemCameraTransforms.TransformType transformType, @Nullable Transform transform, ItemStack stack, ItemStack parent, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay)
     {
         if(!stack.isEmpty())
@@ -130,6 +137,7 @@ public class RenderUtil
                 else
                 {
                     RenderType renderType = getRenderType(stack, !flag1);
+
                     IVertexBuilder builder;
                     if(stack.getItem() == Items.COMPASS && stack.hasEffect())
                     {
@@ -155,8 +163,9 @@ public class RenderUtil
 
                         matrixStack.pop();
                     }
-                    else if(flag1)
+                    else if(flag1 || stack.getItem() instanceof ScopeItem)
                     {
+                        renderType = RENDER_TYPE;
                         builder = ItemRenderer.getEntityGlintVertexBuilder(buffer, renderType, true, stack.hasEffect() || parent.hasEffect());
                     }
                     else
