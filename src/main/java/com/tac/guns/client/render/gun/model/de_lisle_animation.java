@@ -11,6 +11,7 @@ import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.OptifineHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;

@@ -17,6 +17,7 @@ import com.tac.guns.network.message.MessageUnload;
 import com.tac.guns.network.message.MessageUpdateGunID;
 import com.tac.guns.util.GunEnchantmentHelper;
 
+import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.WearableHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
