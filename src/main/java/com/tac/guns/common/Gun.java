@@ -1620,6 +1620,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 return this.irDevice;
             }
             @Nullable
+            public ScaledPositioned getIrDevice()
+            {
+                return this.irDevice;
+            }
+            @Nullable
             public ScaledPositioned getExtendedMag()
             {
                 return this.extendedMag;
