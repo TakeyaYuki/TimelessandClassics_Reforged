@@ -44,7 +44,7 @@ public class m1928_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.M1928.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always push
-            matrices.push();
+            matrices.pushPose();
 
             //We're getting the cooldown tracker for the item - items like the sword, ender pearl, and chorus fruit all have this too.
             Gun gun = ((GunItem) stack.getItem()).getGun();
@@ -72,7 +72,7 @@ public class m1928_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.M1928_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.pop();
+            matrices.popPose();
     }
 
      

@@ -48,7 +48,7 @@ public class tec_9_animation implements IOverrideModel
         RenderUtil.renderModel(SpecialModels.TEC_9.getModel(), stack, matrices, renderBuffer, light, overlay);
 
         //Always push
-        matrices.push();
+        matrices.pushPose();
 
         Gun gun = ((GunItem) stack.getItem()).getGun();
         float cooldownOg = ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate()) < 0 ? 1 : ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate());
@@ -76,7 +76,7 @@ public class tec_9_animation implements IOverrideModel
         RenderUtil.renderModel(SpecialModels.TEC_9_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
         //Always pop
-        matrices.pop();
+        matrices.popPose();
     }
      
 

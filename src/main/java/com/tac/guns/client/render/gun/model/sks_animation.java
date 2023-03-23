@@ -51,7 +51,7 @@ public class sks_animation implements IOverrideModel {
 
         RenderUtil.renderModel(SpecialModels.SKS.getModel(), stack, matrices, renderBuffer, light, overlay);
 
-        matrices.push();
+        matrices.pushPose();
         if(Gun.hasAmmo(stack))
         {
             // Math provided by Bomb787 on GitHub and Curseforge!!!
@@ -70,7 +70,7 @@ public class sks_animation implements IOverrideModel {
         }
         matrices.translate(0, 0, 0.0275f);
         RenderUtil.renderModel(SpecialModels.SKS_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.pop();
+        matrices.popPose();
     }
 
      

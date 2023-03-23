@@ -217,7 +217,7 @@ public class ReloadHandler {
     		final ClientPlayerEntity player = Minecraft.getInstance().player;
 			if( player == null ) return;
 			
-			final ItemStack stack = player.getHeldItemMainhand();
+			final ItemStack stack = player.getMainHandItem();
 			if( stack.getItem() instanceof GunItem )
 			{
 				PacketHandler.getPlayChannel().sendToServer( new MessageUpdateGunID() );
@@ -258,7 +258,7 @@ public class ReloadHandler {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player != null) {
             if (SyncedPlayerData.instance().get(player, ModSyncedDataKeys.RELOADING)) {
-                if (this.reloadingSlot != player.inventory.currentItem) {
+                if (this.reloadingSlot != player.inventory.selected) {
                     this.setReloading(false);
                 }
             }
@@ -269,13 +269,13 @@ public class ReloadHandler {
 
     private boolean isInGame() {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.loadingGui != null)
+        if (mc.overlay != null)
             return false;
-        if (mc.currentScreen != null)
+        if (mc.screen != null)
             return false;
-        if (!mc.mouseHelper.isMouseGrabbed())
+        if (!mc.mouseHandler.isMouseGrabbed())
             return false;
-        return mc.isGameFocused();
+        return mc.isWindowActive();
     }
     /*@SubscribeEvent
     public void onPlayerUpdate(TickEvent.PlayerTickEvent event)
@@ -292,7 +292,7 @@ public class ReloadHandler {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player != null) {
             if (reloading) {
-                ItemStack stack = player.getHeldItemMainhand();
+                ItemStack stack = player.getMainHandItem();
                 prevItemStack = stack;
                 if (stack.getItem() instanceof GunItem) {
                     CompoundNBT tag = stack.getTag();
@@ -317,7 +317,7 @@ public class ReloadHandler {
                         SyncedPlayerData.instance().set(player, ModSyncedDataKeys.RELOADING, true);
                         PacketHandler.getPlayChannel().sendToServer(new MessageReload(true));
                         AnimationHandler.INSTANCE.onGunReload(true, stack);
-                        this.reloadingSlot = player.inventory.currentItem;
+                        this.reloadingSlot = player.inventory.selected;
                         MinecraftForge.EVENT_BUS.post(new GunReloadEvent.Post(player, stack));
                     }
                 }
@@ -331,7 +331,7 @@ public class ReloadHandler {
     }
 
     private void updateReloadTimer(PlayerEntity player) {
-        ItemStack stack = player.getHeldItemMainhand();
+        ItemStack stack = player.getMainHandItem();
         if (SyncedPlayerData.instance().get(player, ModSyncedDataKeys.RELOADING)) {
             prevState = true;
             if (stack.getItem() instanceof GunItem) {
@@ -344,7 +344,7 @@ public class ReloadHandler {
                     if (gun.getReloads().isMagFed()) {
                         if (this.startUpReloadTimer == 0) {
                             if (this.startReloadTick == -1) {
-                                this.startReloadTick = player.ticksExisted + 5;
+                                this.startReloadTick = player.tickCount + 5;
                             }
                             if (tag.getInt("AmmoCount") <= 0) {
                                 if (this.reloadTimer < gun.getReloads().getReloadMagTimer() + gun.getReloads().getAdditionalReloadEmptyMagTimer()) {
@@ -360,7 +360,7 @@ public class ReloadHandler {
                     } else {
                         if (this.startUpReloadTimer == 0) {
                             if (this.startReloadTick == -1) {
-                                this.startReloadTick = player.ticksExisted + 5;
+                                this.startReloadTick = player.tickCount + 5;
                             }
                             if (this.reloadTimer < gun.getReloads().getinterReloadPauseTicks()) {
                                 if (!AnimationHandler.INSTANCE.isReloadingIntro(prevItemStack.getItem()))
@@ -441,7 +441,7 @@ public class ReloadHandler {
     public void onGunFire(GunFireEvent.Pre event) {
         PlayerEntity player = event.getPlayer();
         if(player == null) return;
-        ItemStack stack = player.getHeldItemMainhand();
+        ItemStack stack = player.getMainHandItem();
         if (!(stack.getItem() instanceof GunItem)) return; // Fails on server instances where all plays must be holding a gun
         Gun gun = ((GunItem) stack.getItem()).getModifiedGun(stack);
         if(GunAnimationController.fromItem(stack.getItem()) instanceof PumpShotgunAnimationController && isReloading()) event.setCanceled(true);

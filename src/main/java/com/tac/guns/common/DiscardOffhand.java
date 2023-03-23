@@ -24,7 +24,7 @@ public class DiscardOffhand {
     public static void onChange(LivingEquipmentChangeEvent event)
     {
         LivingEntity entity = event.getEntityLiving();
-        if (entity instanceof PlayerEntity && !entity.getEntityWorld().isRemote)
+        if (entity instanceof PlayerEntity && !entity.getCommandSenderWorld().isClientSide)
         {
             if (event.getSlot() == EquipmentSlotType.MAINHAND)
             {
@@ -39,7 +39,7 @@ public class DiscardOffhand {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
         LivingEntity entity = event.player;
-        if (event.phase == TickEvent.Phase.END && !entity.getEntityWorld().isRemote)
+        if (event.phase == TickEvent.Phase.END && !entity.getCommandSenderWorld().isClientSide)
         {
             Integer safeTime = mapping.get(entity);
             if (safeTime != null && safeTime != 0)

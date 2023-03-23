@@ -110,7 +110,7 @@ public class ar_10_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.AR_10_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.push();
+        matrices.pushPose();
         Gun gun = ((GunItem) stack.getItem()).getGun();
         float cooldownOg = ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate()) < 0 ? 1 : ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate());
 
@@ -132,6 +132,6 @@ public class ar_10_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.AR_10_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.pop();
+        matrices.popPose();
     }
 }

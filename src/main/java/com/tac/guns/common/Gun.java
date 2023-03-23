@@ -193,7 +193,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             }
             if(tag.contains("GripType", Constants.NBT.TAG_STRING))
             {
-                this.gripType = GripType.getType(ResourceLocation.tryCreate(tag.getString("GripType")));
+                this.gripType = GripType.getType(ResourceLocation.tryParse(tag.getString("GripType")));
             }
             if(tag.contains("RecoilAngle", Constants.NBT.TAG_ANY_NUMERIC))
             {
@@ -2230,7 +2230,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             CompoundNBT attachment = compound.getCompound("Attachments");
             if(attachment.contains("Scope", Constants.NBT.TAG_COMPOUND))
             {
-                ItemStack scopeStack = ItemStack.read(attachment.getCompound("Scope"));
+                ItemStack scopeStack = ItemStack.of(attachment.getCompound("Scope"));
                 if(scopeStack.getItem() instanceof IScope)
                 {
                     scope = ((IScope) scopeStack.getItem()).getProperties();
@@ -2239,7 +2239,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             }
             else if(attachment.contains("OldScope", Constants.NBT.TAG_COMPOUND))
             {
-                ItemStack OldScopeStack = ItemStack.read(attachment.getCompound("OldScope"));
+                ItemStack OldScopeStack = ItemStack.of(attachment.getCompound("OldScope"));
                 if(OldScopeStack.getItem() instanceof IScope)
                 {
                     scope = ((IScope) OldScopeStack.getItem()).getProperties();
@@ -2247,7 +2247,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
            }
             else if(attachment.contains("PistolScope", Constants.NBT.TAG_COMPOUND))
             {
-                ItemStack OldScopeStack = ItemStack.read(attachment.getCompound("PistolScope"));
+                ItemStack OldScopeStack = ItemStack.of(attachment.getCompound("PistolScope"));
                 if(OldScopeStack.getItem() instanceof IScope)
                 {
                     scope = ((IScope) OldScopeStack.getItem()).getProperties();
@@ -2266,7 +2266,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             CompoundNBT attachment = compound.getCompound("Attachments");
             if(attachment.contains(type.getTagKey(), Constants.NBT.TAG_COMPOUND))
             {
-                return ItemStack.read(attachment.getCompound(type.getTagKey()));
+                return ItemStack.of(attachment.getCompound(type.getTagKey()));
             }
         }
         return ItemStack.EMPTY;
@@ -2289,9 +2289,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             stacks.add(item != null ? new ItemStack(item, Integer.MAX_VALUE) : ItemStack.EMPTY);
             return stacks.toArray(new ItemStack[]{});
         }
-        for(int i = 0; i < player.inventory.getSizeInventory(); ++i)
+        for(int i = 0; i < player.inventory.getContainerSize(); ++i)
         {
-            ItemStack stack = player.inventory.getStackInSlot(i);
+            ItemStack stack = player.inventory.getItem(i);
             if(isAmmo(stack, id)) {
                 stacks.add(stack);
             }
@@ -2303,7 +2303,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             ListNBT nbtTagList = (ListNBT) ((ArmorRigItem)wornRig.getItem()).getShareTag(wornRig).getCompound("storage").get("Items");
             for (int i = 0; i < ((ArmorRigItem)wornRig.getItem()).getShareTag(wornRig).getCompound("storage").getInt("Size"); i++)
             {
-                ItemStack ammoStack = ItemStack.read(nbtTagList.getCompound(i));
+                ItemStack ammoStack = ItemStack.of(nbtTagList.getCompound(i));
                 if(isAmmo(ammoStack, id))
                     stacks.add(ammoStack);
                 //Minecraft.getInstance().player.sendChatMessage(""+ammoStack.getItem().getRegistryName());
@@ -2322,7 +2322,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             ListNBT nbtTagList = (ListNBT) ((ArmorRigItem)rig.getItem()).getShareTag(rig).getCompound("storage").get("Items");
             for (int i = 0; i < ((ArmorRigItem)rig.getItem()).getShareTag(rig).getCompound("storage").getInt("Size"); i++)
             {
-                stacks.add(ItemStack.read(nbtTagList.getCompound(i)));
+                stacks.add(ItemStack.of(nbtTagList.getCompound(i)));
             }
         }
         return stacks.toArray(new ItemStack[]{});
@@ -2348,7 +2348,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         ListNBT nbtTagList = (ListNBT) rigData.getCompound("storage").get("Items");
         for (int i = 0; i < rigData.getCompound("storage").getInt("Size"); i++)
         {
-            stacks.add(ItemStack.read(nbtTagList.getCompound(i)));
+            stacks.add(ItemStack.of(nbtTagList.getCompound(i)));
         }
         for (ItemStack x : stacks)
         {

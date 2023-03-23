@@ -53,7 +53,7 @@ public class sten_oss_animation implements IOverrideModel {
         Gun gun = ((GunItem) stack.getItem()).getGun();
         float cooldownOg = ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate()) < 0 ? 1 : ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate());
         //Always push
-        matrices.push();
+        matrices.pushPose();
         if(Gun.hasAmmo(stack))
         {
             // Math provided by Bomb787 on GitHub and Curseforge!!!
@@ -71,8 +71,8 @@ public class sten_oss_animation implements IOverrideModel {
             }
         }
         RenderUtil.renderModel(SpecialModels.STEN_MK_II_BOLT_SPRING.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.pop();
-        matrices.push();
+        matrices.popPose();
+        matrices.pushPose();
         //matrices.translate(0, 0, 0.22f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
         if(Gun.hasAmmo(stack))
         {
@@ -93,7 +93,7 @@ public class sten_oss_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.STEN_MK_II_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
         //Always pop
-        matrices.pop();
+        matrices.popPose();
     }
 
      
