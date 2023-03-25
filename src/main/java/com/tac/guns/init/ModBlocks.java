@@ -52,13 +52,15 @@ public class ModBlocks
         return register(id, blockSupplier, block1 -> new BlockItem(block1, grouped ? new Item.Properties().group(GunMod.GROUP) : new Item.Properties().group(ItemGroup.SEARCH)));
     }
 
+    public static void init(){};
+
     private static <T extends Block> RegistryObject<T> register(String id, Supplier<T> blockSupplier, @Nullable Function<T, BlockItem> supplier)
     {
-        T block = blockSupplier.get();
+        RegistryObject<T> registryObject = REGISTER.register(id, blockSupplier);
         if(supplier != null)
         {
-            ModItems.REGISTER.register(id, () -> supplier.apply(block));
+            ModItems.REGISTER.register(id, () -> supplier.apply(registryObject.get()));
         }
-        return ModBlocks.REGISTER.register(id, () -> block);
+        return registryObject;
     }
 }

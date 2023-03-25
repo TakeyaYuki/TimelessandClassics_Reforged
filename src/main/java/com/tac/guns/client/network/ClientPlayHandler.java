@@ -111,6 +111,7 @@ public class ClientPlayHandler
         World world = Minecraft.getInstance().world;
         if(world != null)
         {
+
             int[] entityIds = message.getEntityIds();
             Vector3d[] positions = message.getPositions();
             Vector3d[] motions = message.getMotions();
