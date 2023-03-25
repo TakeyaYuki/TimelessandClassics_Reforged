@@ -404,7 +404,6 @@ public class GunMod
     @SubscribeEvent
     public void onCapabilitySetup(RegisterCapabilitiesEvent event)
     {
-        // Too much to keep in Gunmod file
         event.register(IAmmoItemHandler.class);
         event.register(IWearableItemHandler.class);
     }
