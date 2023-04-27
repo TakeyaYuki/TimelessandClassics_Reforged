@@ -240,6 +240,9 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
             {
                 endVec = result.getHitVec();
             }
+            BlockState blockState = world.getBlockState(resultB.getPos());*/
+            // if(ignorePredicate.test(blockState)) return null;
+
 
             List<EntityResult> hitEntities = null;
             int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.COLLATERAL.get(), this.weapon);
@@ -429,7 +432,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
         if(modifiedGun == null)
             return;
 
-        MinecraftForge.EVENT_BUS.post(new GunProjectileHitEvent(result, this));
+        //MinecraftForge.EVENT_BUS.post(new GunProjectileHitEvent(result, this));
 
         if(result instanceof BlockRayTraceResult)
         {
@@ -792,20 +795,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
     }
 
 
-    /**
-     * A custom implementation of
-     * that allows you to pass a predicate to ignore certain blocks when checking for collisions,
-     * along with keeping track if passing through multiple blocks
-     *
-     * Should be used for checking if the first block is wallbangable, and second block being air.
-     *
-     * @param world     the world to perform the ray trace
-     * @param context   the ray trace context
-     * @param ignorePredicate the block state predicate
-     * @return a result of the raytrace
-     */
-
-    private static BlockRayTraceResult rayTraceBlocksPassThrough(World world, RayTraceContext context, Predicate<BlockState> ignorePredicate)
+    private static class BlockRayTraceMeta
     {
         //TODO: Reperform raytrace after first hit, if the distance of the next hit is between 0-1.1 blocks then end as a block hit, else return wallbang
         return performRayTrace(context, (rayTraceContext, blockPos) -> {
@@ -827,7 +817,6 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
         });
     }
 
-
     /**
      * A custom implementation of
      * that allows you to pass a predicate to ignore certain blocks when checking for collisions.
@@ -839,7 +828,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
      */
     private static BlockRayTraceResult rayTraceBlocks(World world, RayTraceContext context, Predicate<BlockState> ignorePredicate)
     {
-        return performRayTrace(context, (rayTraceContext, blockPos) -> {
+        /*BlockRayTraceResult r =*/ return performRayTrace(context, (rayTraceContext, blockPos) -> {
             BlockState blockState = world.getBlockState(blockPos);
             if(ignorePredicate.test(blockState)) return null;
             FluidState fluidState = world.getFluidState(blockPos);
@@ -856,6 +845,8 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
             Vector3d Vector3d = rayTraceContext.getStartVec().subtract(rayTraceContext.getEndVec());
             return BlockRayTraceResult.createMiss(rayTraceContext.getEndVec(), Direction.getFacingFromVector(Vector3d.x, Vector3d.y, Vector3d.z), new BlockPos(rayTraceContext.getEndVec()));
         });
+
+        //return new BlockRayTraceMeta(r);
     }
 
     private static <T> T performRayTrace(RayTraceContext context, BiFunction<RayTraceContext, BlockPos, T> hitFunction, Function<RayTraceContext, T> missFactory)
