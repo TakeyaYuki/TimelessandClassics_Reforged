@@ -130,9 +130,7 @@ public class Config
                 this.weaponDelayedSwayYNOptical = builder.comment("If true, the weapon will drag against the aiming point ONLY if an optic is added.").define("weaponDelayedSwayYNOptical", false);
 
                 this.showBulletTrails = builder.comment("Choose to see any bullet trails, trails by you or any other player / bot will not appear. Helps with Shader compatability.").define("showBulletTrails", true);
-                this.bulletTrailOpacity = builder.comment("Adjusts the opacity, AKA how see through the bullet trails are seen as, higher values can be seen better indoors or at daytime.").defineInRange("bulletTrailOpacity", 0.5, 0.1, 1.0);
-
-                this.showHitMarkers = builder.comment("true if you want hitmarkers to appear, both in hipfire and optics when hitting an entity.").define("showHitMarkers", true);
+                this.bulletTrailOpacity = builder.comment("Adjusts the opacity, AKA how see through the bullet trails are seen as, higher values can be seen better indoors or at daytime.").defineInRange("bulletTrailOpacity", 0.285, 0.1, 1.0);
             }
             builder.pop();
         }
@@ -403,8 +401,9 @@ public class Config
 
                 this.bulletsIgnoreStandardArmor = builder.comment("Bullets completely ignore Minecraft armor, forcing you to use our armor system.").define("bulletsIgnoreStandardArmor", true);
                 this.percentDamageIgnoresStandardArmor =
-                        builder.comment("The percent of the damage ignore the armor, 0 = Minecraft armor effectiveness doesn't change, 1 = Minecraft armor never effects bullet damage.").defineInRange(
-                        "percentDamageIgnoresStandardArmor", 0.5, 0.0, 1.0);
+                        builder.comment("The percent of the damage to be applied standard, AKA Minecraft armor reduces this portion of the damage, while the rest passes through freely, only active when either armor hits 0 or no TaC armor worn at " +
+                                "all, 0 = Minecraft armor never effects bullet damage, 1 = Minecraft armor effectiveness doesn't change.").defineInRange(
+                        "percentDamageIgnoresStandardArmor", 0.25, 0.0, 1.0);
                 this.renderTaCArmor = builder.comment("Enable rendering of TaC armor on the player, useful if other armors are taking priority, doesn't fit gameplay theme, or not performant enough.").define("renderTaCArmor",
                         true);
                 this.armorBluntDamage = builder.comment("All weapons have a percentage of damage applied, no matter the class match up, false means blunt damage is never applied before armor calc.").define("armorBluntDamage", true);
