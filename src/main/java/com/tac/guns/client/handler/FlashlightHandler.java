@@ -40,7 +40,7 @@ public class FlashlightHandler
     
     private FlashlightHandler()
     {
-    	InputHandler.ACTIVATE_SIDE_RAIL.addPressCallback( () -> {
+    	/*InputHandler.ACTIVATE_SIDE_RAIL.addPressCallback( () -> {
     		final Minecraft mc = Minecraft.getInstance();
     		final Player player = mc.player;
     		if(
@@ -51,7 +51,7 @@ public class FlashlightHandler
     				player.getMainHandItem()
     			) != null
     		) this.active = !active;
-    	} );
+    	} );*/
     }
 
     private boolean isInGame()

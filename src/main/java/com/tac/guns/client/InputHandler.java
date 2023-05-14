@@ -54,7 +54,7 @@ public final class InputHandler
 	FIRE_SELECT = new KeyBind( "key.tac.fireSelect", GLFW.GLFW_KEY_G ),
 			INSPECT = new KeyBind( "key.tac.inspect", GLFW.GLFW_KEY_H ),
 			SIGHT_SWITCH = new KeyBind( "key.tac.sight_switch", GLFW.GLFW_KEY_V ),
-			ACTIVATE_SIDE_RAIL = new KeyBind( "key.tac.activateSideRail", GLFW.GLFW_KEY_B ),
+			//ACTIVATE_SIDE_RAIL = new KeyBind( "key.tac.activateSideRail", GLFW.GLFW_KEY_B ),
 			MORE_INFO_HOLD = new KeyBind( "key.tac.moreInfoHold", GLFW.GLFW_KEY_LEFT_SHIFT );
 
 	/**
@@ -124,9 +124,9 @@ public final class InputHandler
 				FIRE_SELECT,
 				INSPECT,
 				SIGHT_SWITCH,
-				ACTIVATE_SIDE_RAIL,
-				ARMOR_REPAIRING
-//			, COLOR_BENCH
+				//ACTIVATE_SIDE_RAIL,
+				ARMOR_REPAIRING,
+				MORE_INFO_HOLD
 		);
 
 		regisAll(
