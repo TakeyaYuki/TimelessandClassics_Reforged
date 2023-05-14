@@ -38,13 +38,10 @@ public final class InputHandler
 	 * Universal keys. These keys will always update
 	 */
 	public static final KeyBind
-			PULL_TRIGGER = new KeyBind(
-			"key.tac.pull_trigger",
-			GLFW.GLFW_MOUSE_BUTTON_LEFT,
-			Type.MOUSE
-	),
+			PULL_TRIGGER = new KeyBind( "key.tac.pull_trigger", GLFW.GLFW_MOUSE_BUTTON_LEFT, Type.MOUSE ),
 			AIM_HOLD = new KeyBind( "key.tac.aim_hold", GLFW.GLFW_MOUSE_BUTTON_RIGHT, Type.MOUSE ),
-			AIM_TOGGLE = new KeyBind( "key.tac.aim_toggle", InputConstants.UNKNOWN.getValue() );
+			AIM_TOGGLE = new KeyBind( "key.tac.aim_toggle", InputConstants.UNKNOWN.getValue()),
+			ARMOR_REPAIRING = new KeyBind( "key.tac.armor_repairing", GLFW.GLFW_MOUSE_BUTTON_RIGHT, Type.MOUSE);
 
 	/**
 	 * Normal keys. These keys will update when {@link #CO} is not down.
@@ -58,10 +55,7 @@ public final class InputHandler
 			INSPECT = new KeyBind( "key.tac.inspect", GLFW.GLFW_KEY_H ),
 			SIGHT_SWITCH = new KeyBind( "key.tac.sight_switch", GLFW.GLFW_KEY_V ),
 			ACTIVATE_SIDE_RAIL = new KeyBind( "key.tac.activateSideRail", GLFW.GLFW_KEY_B ),
-			ARMOR_REPAIRING = new KeyBind( "key.tac.armor_repairing", GLFW.GLFW_KEY_K);
-
-	// TODO: remove this key maybe? At least not used now. #(line: 129)
-//		COLOR_BENCH = new KeyBind( "key.tac.color_bench", GLFW.GLFW_KEY_PAGE_DOWN );
+			MORE_INFO_HOLD = new KeyBind( "key.tac.moreInfoHold", GLFW.GLFW_KEY_LEFT_SHIFT );
 
 	/**
 	 * Co-keys. These keys will update when {@link #CO} is down.
@@ -92,7 +86,8 @@ public final class InputHandler
 			I = new KeyBind( "key.tac.i", GLFW.GLFW_KEY_I ),
 			J = new KeyBind( "key.tac.j", GLFW.GLFW_KEY_J ),
 			N = new KeyBind( "key.tac.n", GLFW.GLFW_KEY_N ),
-			UP = new KeyBind( "key.tac.bbb", GLFW.GLFW_KEY_UP ),
+
+	UP = new KeyBind( "key.tac.bbb", GLFW.GLFW_KEY_UP ),
 			RIGHT = new KeyBind( "key.tac.vvv", GLFW.GLFW_KEY_RIGHT ),
 			LEFT = new KeyBind( "key.tac.ccc", GLFW.GLFW_KEY_LEFT ),
 			DOWN = new KeyBind( "key.tac.zzz", GLFW.GLFW_KEY_DOWN );
