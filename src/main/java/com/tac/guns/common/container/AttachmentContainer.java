@@ -228,7 +228,7 @@ public class AttachmentContainer extends Container
         }
         else if(this.weapon.getItem() instanceof TimelessGunItem)// && !(this.weapon.getItem() instanceof TimelessOldRifleGunItem))
         {
-            for (int i = 0; i < IAttachment.Type.values().length-7; i++)
+            for (int i = 0; i < IAttachment.Type.values().length-6; i++)
             {
                 if(i==0 && ((TimelessGunItem)this.weapon.getItem()).getGun().canAttachType(IAttachment.Type.PISTOL_SCOPE))
                     this.addSlot(new AttachmentSlot(this, this.weaponInventory, this.weapon, new IAttachment.Type[]{IAttachment.Type.values()[i], IAttachment.Type.PISTOL_SCOPE}, playerInventory.player, 0, 5, 17 + 0 * 18));
@@ -286,7 +286,6 @@ public class AttachmentContainer extends Container
     {
         return true;
     }
-
     @Override
     public void onCraftMatrixChanged(IInventory inventoryIn) // something with this...
     {

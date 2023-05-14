@@ -8,6 +8,12 @@
     },
     {
       "item": {
+        "tag": "forge:materials/rare"
+      },
+      "count": 2
+    },
+    {
+      "item": {
         "tag": "forge:gunpowder"
       },
       "count": 20

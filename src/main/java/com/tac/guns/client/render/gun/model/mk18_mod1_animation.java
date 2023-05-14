@@ -44,12 +44,7 @@ public class mk18_mod1_animation implements IOverrideModel {
             controller.applySpecialModelTransform(SpecialModels.MK18_MOD1_BODY.getModel(), MK18MOD1AnimationController.INDEX_BODY, transformType, matrices);
             if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() == ModItems.BASIC_LASER.orElse(ItemStack.EMPTY.getItem())) {
                 RenderUtil.renderLaserModuleModel(SpecialModels.MK18_MOD1_BASIC_LASER_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, light, overlay);
-                matrices.push();
-                matrices.translate(0, 0, -0.585);
-                matrices.scale(1, 1, 11);
-                matrices.translate(0, 0, 0.585);
                 RenderUtil.renderLaserModuleModel(SpecialModels.MK18_MOD1_BASIC_LASER.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
-                matrices.pop();
             }
             else if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() != ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()) || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem())) {
                 RenderUtil.renderLaserModuleModel(SpecialModels.MK18_MOD1_IR_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
@@ -132,36 +127,4 @@ public class mk18_mod1_animation implements IOverrideModel {
         matrices.pop();
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
     }
-
-    // x was the world matrix stack, will this render stack render properly here even if called in this model renderer
-    /*public static void renderLine(MatrixStack x, Vector3d vecStart, Vector3d vecEnd, int lineWidth)
-    {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        MatrixStack matrixStack = x;
-        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
-
-        matrixStack.push();
-        matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-        RenderSystem.lineWidth(lineWidth);
-
-        Matrix4f matrix = matrixStack.getLast().getMatrix();
-
-        bufferbuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
-        drawLine(matrix, bufferbuilder, vecStart, vecEnd, new Color4f(0,0,0,1));
-        tessellator.draw();
-
-        GlStateManager.lineWidth(1);
-        matrixStack.pop();
-    }
-
-    private static void drawLine(Matrix4f matrix, BufferBuilder buffer, Vec3d p1, Vec3d p2)
-    {
-        buffer.pos(matrix, (float)p1.x + 0.5f, (float)p1.y + 1.0f, (float)p1.z + 0.5f)
-                .color(0, 0, 0, 1)
-                .endVertex();
-        buffer.pos(matrix, (float)p2.x + 0.5f, (float)p2.y, (float)p2.z + 0.5f)
-                .color(0, 0, 0, 1)
-                .endVertex();
-    }*/
 }

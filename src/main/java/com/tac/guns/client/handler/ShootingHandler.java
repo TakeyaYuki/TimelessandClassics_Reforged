@@ -110,7 +110,7 @@ public class  ShootingHandler
         if(heldItem.getItem() instanceof GunItem)
         {
             int button = event.getButton();
-            if(button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+            if(button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && AimingHandler.get().isLookingAtInteractableBlock())
             {
                 event.setCanceled(true);
             }
@@ -203,7 +203,7 @@ public class  ShootingHandler
             return;
 
         //TODO: Gurantee this solution is good, run a performance profile soon and reduce renderTick listeners
-        if(HUDRenderingHandler.get().hitMarkerTracker > 0F)
+        if(Config.CLIENT.display.showHitMarkers.get() && HUDRenderingHandler.get().hitMarkerTracker > 0F)
             HUDRenderingHandler.get().hitMarkerTracker -= evt.renderTickTime*hitmarkerCooldownMultiplier();
         else
             HUDRenderingHandler.get().hitMarkerTracker = 0;

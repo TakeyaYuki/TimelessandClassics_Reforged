@@ -25,7 +25,7 @@
     "visible": false,
     "damage": 9,
     "armorIgnore": 1.0,
-    "critical": 0.05,
+    "critical": 0.00,
     "criticalDamage": 0.75,
     "headDamage": 1.0,
     "size": 0.125,
@@ -47,7 +47,6 @@
     "reloadEmpty": "tac:animation.fn_fal_reload_empty",
     "draw": "tac:animation.fn_fal_draw",
     "inspect": "tac:animation.fn_fal_inspect",
-    "inspectEmpty": "tac:animation.fn_fal_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.fnfal_fire_s"
   },

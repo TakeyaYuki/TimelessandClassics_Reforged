@@ -46,6 +46,13 @@ public class Config
         public final ForgeConfigSpec.ConfigValue<String> headshotSound;
         public final ForgeConfigSpec.BooleanValue playSoundWhenCritical;
         public final ForgeConfigSpec.ConfigValue<String> criticalSound;
+
+
+        public final ForgeConfigSpec.BooleanValue playSoundWhenPlayer;
+        public final ForgeConfigSpec.ConfigValue<String> playerSound;
+        public final ForgeConfigSpec.BooleanValue playSoundWhenMob;
+        public final ForgeConfigSpec.ConfigValue<String> mobSound;
+
         public final ForgeConfigSpec.DoubleValue weaponsVolume;
 
         public Sounds(ForgeConfigSpec.Builder builder)
@@ -58,6 +65,12 @@ public class Config
                 this.headshotSound = builder.comment("The sound to play when a headshot occurs").define("headshotSound", "minecraft:entity.player.attack.crit");
                 this.playSoundWhenCritical = builder.comment("If true, a sound will play when you successfully hit a critical on a entity with a gun").define("playSoundWhenCritical", true);
                 this.criticalSound = builder.comment("The sound to play when a critical occurs").define("criticalSound", "minecraft:entity.player.attack.crit");
+
+                this.playSoundWhenPlayer = builder.comment("If true, a sound will play when you successfully hit a player with a gun").define("playSoundWhenPlayer", true);
+                this.playerSound = builder.comment("The sound to play when hitting a player").define("playerSound", "minecraft:entity.player.hurt");
+                this.playSoundWhenMob = builder.comment("If true, a sound will play when you successfully hit an entity with a gun").define("playSoundWhenMob", true);
+                this.mobSound = builder.comment("The sound to play when an entity is shot").define("mobSound", "minecraft:entity.player.attack.weak");
+
             }
             builder.pop();
         }
@@ -86,6 +99,9 @@ public class Config
         public final ForgeConfigSpec.BooleanValue weaponDelayedSwayYNOptical;
         public final ForgeConfigSpec.BooleanValue showBulletTrails;
         public final ForgeConfigSpec.DoubleValue bulletTrailOpacity;
+
+
+        public final ForgeConfigSpec.BooleanValue showHitMarkers;
         public Display(ForgeConfigSpec.Builder builder)
         {
             builder.comment("Configuration for display related options").push("display");
@@ -115,6 +131,8 @@ public class Config
 
                 this.showBulletTrails = builder.comment("Choose to see any bullet trails, trails by you or any other player / bot will not appear. Helps with Shader compatability.").define("showBulletTrails", true);
                 this.bulletTrailOpacity = builder.comment("Adjusts the opacity, AKA how see through the bullet trails are seen as, higher values can be seen better indoors or at daytime.").defineInRange("bulletTrailOpacity", 0.5, 0.1, 1.0);
+
+                this.showHitMarkers = builder.comment("true if you want hitmarkers to appear, both in hipfire and optics when hitting an entity.").define("showHitMarkers", true);
             }
             builder.pop();
         }
@@ -381,8 +399,7 @@ public class Config
 
                 this.bulletsIgnoreStandardArmor = builder.comment("Bullets completely ignore Minecraft armor, forcing you to use our armor system.").define("bulletsIgnoreStandardArmor", true);
                 this.percentDamageIgnoresStandardArmor =
-                        builder.comment("The percent of the damage to be applied standard, AKA Minecraft armor reduces this portion of the damage, while the rest passes through freely, only active when either armor hits 0 or no TaC armor worn at " +
-                                "all, 0 = Minecraft armor effectiveness doesn't change, 1 = Minecraft armor never effects bullet damage.").defineInRange(
+                        builder.comment("The percent of the damage ignore the armor, 0 = Minecraft armor effectiveness doesn't change, 1 = Minecraft armor never effects bullet damage.").defineInRange(
                         "percentDamageIgnoresStandardArmor", 0.5, 0.0, 1.0);
                 this.renderTaCArmor = builder.comment("Enable rendering of TaC armor on the player, useful if other armors are taking priority, doesn't fit gameplay theme, or not performant enough.").define("renderTaCArmor",
                         true);

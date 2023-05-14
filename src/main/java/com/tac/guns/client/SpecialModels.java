@@ -104,6 +104,13 @@ public enum SpecialModels
     VECTOR45_SILENCER("vector45_silencer"),
     VECTOR45_STANDARD_MAG("vector45_standard_mag"),
     VECTOR45_TACTICAL_STOCK("vector45_tactical_stock"),
+
+    VECTOR45_B_LASER_DEVICE("vector45_b_laser_device"),
+    VECTOR45_IR_LASER_DEVICE("vector45_ir_laser_device"),
+
+    VECTOR45_B_LASER("vector45_b_laser"),
+    VECTOR45_IR_LASER("vector45_ir_laser"),
+
     MICRO_UZI_BODY("mac10"),
     MICRO_UZI_BULLET("mac10_bullet"),
     MICRO_UZI_BOLT("mac10_bolt"),
@@ -171,6 +178,10 @@ public enum SpecialModels
     AA_12_STANDARD_MAG("aa_12_standard_mag"),
     AA_12_MUZZLE("aa_12_muzzle"),
     AA_12_FRONT_RAIL("aa_12_front_rail"),
+
+    AA_12_B_LASER_DEVICE("aa_12_b_laser_device"),
+    AA_12_B_LASER("aa_12_b_laser"),
+
     X95R("x95r"),
     X95R_BOLT("x95r_bolt"),
     X95R_SIGHT("x95r_sight"),
@@ -256,6 +267,11 @@ public enum SpecialModels
     HK_MP5A5_EXTENDED_HANDGUARD("hk_mp5a5_extended_handguard"),
     HK_MP5A5_DEFAULT_STOCK("hk_mp5a5_default_stock"),
     HK_MP5A5_OPTICS_RAIL("hk_mp5a5_rail"),
+
+    HK_MP5A5_B_LASER_DEVICE("hk_mp5a5_b_laser_device"),
+    HK_MP5A5_B_LASER("hk_mp5a5_b_laser"),
+
+
     STEN_MK_II_BODY("sten_mk_ii"),
     STEN_MK_II_BOLT("sten_mk_ii_bolt"),
     STEN_MK_II_BOLT_SPRING("sten_mk_ii_bolt_spring"),
@@ -310,6 +326,12 @@ public enum SpecialModels
     HK416_A5_FOLDED("hk416_a5_folded_sights"),
     HK416_A5_UNFOLDED("hk416_a5_unfolded_sights"),
     HK416_A5_DEFAULT_MUZZLE("hk416_a5_default_muzzle"),
+
+    HK416_A5_B_LASER_DEVICE("hk416_a5_b_laser_device"),
+    HK416_A5_B_LASER("hk416_a5_b_laser"),
+    HK416_A5_IR_LASER_DEVICE("hk416_a5_ir_laser_device"),
+    HK416_A5_IR_LASER("hk416_a5_ir_laser"),
+
     GLOCK_17_SUPPRESSOR("glock_17_suppressor"),
     GLOCK_17_BULLET("glock_17_bullet"),
     STI2011_SUPPRESSOR("sti2011_suppressor"),
@@ -406,6 +428,16 @@ public enum SpecialModels
     AR15_HELLMOUTH_EXTENDED_MAG("ar_15_hellmouth_extended_mag"),
     AR15_HELLMOUTH_DD_MAG("ar_15_hellmouth_dd_mag"),
     M4_EXTENDED_HANDGUARD_V2("m4a1_extended_handguard_v2"),
+    M4_EXTENDED_HANDGUARD_V2_L_COVER("m4a1_extended_handguard_v2_left_cover"),
+    M4_EXTENDED_HANDGUARD_V2_L_RAIL("m4a1_extended_handguard_v2_left_rail"),
+    M4_EXTENDED_HANDGUARD_V2_T_COVER("m4a1_extended_handguard_v2_top_cover"),
+    M4_EXTENDED_HANDGUARD_V2_T_RAIL("m4a1_extended_handguard_v2_top_rail"),
+
+    M4_B_LASER_DEVICE("m4a1_b_laser_device"),
+    M4_IR_LASER_DEVICE("m4a1_ir_laser_device"),
+
+    M4_B_LASER("m4a1_b_laser"),
+    M4_IR_LASER("m4a1_ir_laser"),
     VECTOR45_BRAKE("vector45_brake"),
     VECTOR45_COMP("vector45_compensator"),
     VECTOR45_LGRIP("vector45_light_grip"),
@@ -428,6 +460,13 @@ public enum SpecialModels
     SIG_MCX_SPEAR_MAG("sig_mcx_spear_mag"),
     SIG_MCX_SPEAR_LIGHT_GRIP("sig_mcx_spear_light_grip"),
     SIG_MCX_SPEAR_TACTICAL_GRIP("sig_mcx_spear_tactical_grip"),
+
+    SIG_MCX_SPEAR_B_LASER_DEVICE("sig_mcx_spear_b_laser_device"),
+    SIG_MCX_SPEAR_IR_LASER_DEVICE("sig_mcx_spear_ir_laser_device"),
+
+    SIG_MCX_SPEAR_B_LASER("sig_mcx_spear_b_laser"),
+    SIG_MCX_SPEAR_IR_LASER("sig_mcx_spear_ir_laser"),
+
     MP9("mp9"),
     MP9_BOLT("mp9_bolt"),
     MP9_BULLET("mp9_bullet"),
@@ -438,6 +477,8 @@ public enum SpecialModels
 
     MP9_STANDARD_MAG("mp9_standard_mag"),
     MP9_EXTENDED_MAG("mp9_extended_mag"),
+    MP9_B_LASER("mp9_b_laser"),
+    MP9_B_LASER_DEVICE("mp9_b_laser_device"),
     SKS("sks"),
     SKS_BOLT("sks_bolt"),
     SKS_STANDARD_MAG("sks_standard_mag"),
@@ -454,6 +495,12 @@ public enum SpecialModels
     SKS_TACTICAL_SCOPE_RAIL("sks_tactical_srail"),
     SKS_TACTICAL_TACTICAL_GRIP("sks_tactical_tactical_grip"),
     SKS_TACTICAL_TACTICAL_STOCK("sks_tactical_tactical_stock"),
+
+    SKS_TACTICAL_B_LASER_DEVICE("sks_tactical_b_laser_device"),
+    SKS_TACTICAL_B_LASER("sks_tactical_b_laser"),
+    SKS_TACTICAL_IR_LASER_DEVICE("sks_tactical_ir_laser_device"),
+    SKS_TACTICAL_IR_LASER("sks_tactical_ir_laser"),
+
     M1014("m1014"),
     M1014_BULLET("m1014_bullet"),
     M1014_BOLT("m1014_bolt"),
@@ -522,6 +569,11 @@ public enum SpecialModels
     M16A4_BRAKE("m16a4_b_muzzle"),
     M16A4_TAC_GRIP("m16a4_tac_grip"),
     M16A4_LIGHT_GRIP("m16a4_light_grip"),
+
+    M16A4_B_LASER_DEVICE("m16a4_b_laser_device"),
+    M16A4_B_LASER("m16a4_b_laser"),
+    M16A4_IR_LASER_DEVICE("m16a4_ir_laser_device"),
+    M16A4_IR_LASER("m16a4_ir_laser"),
 
 
     SCAR_H_BODY("scar_h"),
@@ -604,6 +656,10 @@ public enum SpecialModels
     SPR_15_DEFAULT_GRIP("spr15_default_grip"),
     SPR_15_LIGHT_GRIP("spr15_light_grip"),
     SPR_15_TAC_GRIP("spr15_tac_grip"),
+
+    SPR_15_B_LASER_DEVICE("spr15_b_laser_device"),
+    SPR_15_B_LASER("spr15_b_laser"),
+
     TTI_G34("tti_g34"),
     TTI_G34_SLIDE("tti_g34_slide"),
     TTI_G34_STANDARD_MAG("tti_g34_standard_mag"),
@@ -628,6 +684,9 @@ public enum SpecialModels
     UDP_9_SUPPRESSOR("udp_9_suppressor"),
     UDP_9_TACTICAL_GRIP("udp_9_tactical_grip"),
     UDP_9_TACTICAL_STOCK("udp_9_tactical_stock"),
+    UDP_9_B_LASER_DEVICE("udp_9_b_laser_device"),
+    UDP_9_RAIL_COVER("udp_9_rail_cover"),
+    UDP_9_B_LASER("udp_9_b_laser"),
 
     MK18_MOD1_BODY("mk18_mod1"),
     MK18_MOD1_BOLT("mk18_mod1_bolt"),
@@ -665,6 +724,50 @@ public enum SpecialModels
     FN_FAL_BASIC_LASER("fn_fal_b_laser"),
     STI2011_BASIC_LASER_DEVICE("sti2011_b_laser_device"),
     STI2011_BASIC_LASER("sti2011_b_laser"),
+
+    SCAR_MK20_BODY("scar_mk20"),
+    SCAR_MK20_BOLT("scar_mk20_bolt"),
+    SCAR_MK20_COMPENSATOR("scar_mk20_c_muzzle"),
+    SCAR_MK20_DEFAULT_BARREL("scar_mk20_d_muzzle"),
+    SCAR_MK20_EXTENDED_MAG("scar_mk20_extended_mag"),
+    SCAR_MK20_SUPPRESSOR("scar_mk20_s_muzzle"),
+    SCAR_MK20_STANDARD_MAG("scar_mk20_standard_mag"),
+    SCAR_MK20_FS("scar_mk20_sight_folded"),
+    SCAR_MK20_FSU("scar_mk20_sight"),
+    SCAR_MK20_BRAKE("scar_mk20_b_muzzle"),
+    SCAR_MK20_TAC_GRIP("scar_mk20_t_grip"),
+    SCAR_MK20_LIGHT_GRIP("scar_mk20_l_grip"),
+    SCAR_MK20_B_LASER("scar_mk20_b_laser_device"),
+    SCAR_MK20_B_LASER_BEAM("scar_mk20_b_laser"),
+    SCAR_MK20_IR_LASER("scar_mk20_ir_laser"),
+    SCAR_MK20_IR_LASER_DEVICE("scar_mk20_ir_laser_device"),
+    GLOCK_17_B_LASER_DEVICE("glock_17_b_laser_device"),
+    GLOCK_17_B_LASER("glock_17_b_laser"),
+
+    M92FS_B_LASER_DEVICE("m92fs_b_laser_device"),
+    M92FS_B_LASER("m92fs_b_laser"),
+    MK23_B_LASER_DEVICE("mk23_b_laser_device"),
+    MK23_B_LASER("mk23_b_laser"),
+
+    MK47_IR_DEVICE("mk47_ir_laser_device"),
+    MK47_IR_LASER("mk47_ir_laser"),
+    MK47_B_LASER_DEVICE("mk47_b_laser_device"),
+    MK47_B_LASER("mk47_b_laser"),
+
+    MK14_BODY1 ("mk14"),
+    BOLT1("mk14_bolt"),
+    STANDARD_MAG1 ("mk14_standard_mag"),
+    EXTENDED_MAG1("mk14_extended_mag"),
+    T_GRIP1("mk14_tac_grip"),
+    L_GRIP1 ("mk14_light_grip"),
+    SCOPE_MOUNT1 ("mk14_mount"),
+    BOLT_HANDLE1 ("mk14_bolt_handle"),
+
+    MK14_B_LASER_DEVICE("mk14_b_laser_device"),
+    MK14_B_LASER("mk14_b_laser"),
+    MK14_IR_LASER_DEVICE("mk14_ir_laser_device"),
+    MK14_IR_LASER("mk14_ir_laser"),
+
     //Everything from this point on is all scope additions
 
     MINI_DOT_BASE("optics/mini_dot_base"),
@@ -675,16 +778,7 @@ public enum SpecialModels
     Sx8_BODY("optics/8x_scope"),
     //Everything from this point on is all LOD renders
 
-    M1911_LOD("lods/m1911_lod"),
-    //TODO: Answer this || Tests to create new auto registry per gunAnimationFile, registries per file still need to be here anyway? f me
-    MK14_BODY1 ("mk14"),
-    BOLT1("mk14_bolt"),
-    STANDARD_MAG1 ("mk14_standard_mag"),
-    EXTENDED_MAG1("mk14_extended_mag"),
-    T_GRIP1("mk14_tac_grip"),
-    L_GRIP1 ("mk14_light_grip"),
-    SCOPE_MOUNT1 ("mk14_mount"),
-    BOLT_HANDLE1 ("mk14_bolt_handle");
+    M1911_LOD("lods/m1911_lod");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

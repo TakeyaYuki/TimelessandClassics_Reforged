@@ -48,7 +48,6 @@
     "reloadEmpty": "tac:animation.mk14_reload_empty",
     "draw": "tac:animation.mk14_draw",
     "inspect": "tac:animation.mk14_inspect",
-    "inspectEmpty": "tac:animation.mk14_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.mk14ebr_fire_s"
   },
@@ -91,6 +90,16 @@
         "scale": 0.0
       },
       "underBarrel": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
+      },
+      "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
+      },
+      "irDevice": {
         "yOffset": 7.799,
         "zOffset": -2.35,
         "scale": 0.00
