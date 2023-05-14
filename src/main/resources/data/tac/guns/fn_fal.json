@@ -23,7 +23,7 @@
   "projectile": {
     "item": "tac:bullet_308",
     "visible": false,
-    "damage": 9,
+    "damage": 12,
     "armorIgnore": 1.0,
     "critical": 0.00,
     "criticalDamage": 0.75,
@@ -57,8 +57,8 @@
       "size": 0.8,
       "trailAdjust": 1.25
     },
-    "hipfireScale": 3.05,
-    "hipfireMoveScale": 1.0,
+    "hipfireScale": 1,
+    "hipfireMoveScale": 0.5,
     "hipfireRecoilScale": 0.95,
     "showDynamicHipfire": true,
     "weaponType": 0
@@ -70,11 +70,6 @@
       "zOffset": -6.125
     },
     "attachments": {
-      "extendedMag": {
-        "yOffset": 1000.89,
-        "zOffset": 5.35,
-        "scale": 0.0
-      },
       "extendedMag": {
         "yOffset": 1000.89,
         "zOffset": 5.35,

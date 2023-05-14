@@ -57,6 +57,10 @@
       "size": 0.75,
       "trailAdjust": 0.575
     },
+    "hipfireScale": 1.25,
+    "hipfireMoveScale": 0.5,
+    "hipfireRecoilScale": 1.0,
+    "showDynamicHipfire":true,
     "weaponType": 2
   },
   "modules": {
@@ -75,6 +79,13 @@
         "yOffset": 1000.89,
         "zOffset": 5.35,
         "scale": 0.0
+      },
+      "pistolScope": {
+        "yOffset": 9.75,
+        "zOffset": 5.75,
+        "scale": 2.00,
+        "doRenderMount": true,
+        "doOnSlideMovement": true
       }
     }
   }
