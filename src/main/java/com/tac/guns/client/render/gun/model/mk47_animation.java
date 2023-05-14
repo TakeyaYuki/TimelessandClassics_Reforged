@@ -71,7 +71,7 @@ public class mk47_animation implements IOverrideModel {
             }
             else if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() != ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()) || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem())) {
                 RenderUtil.renderLaserModuleModel(SpecialModels.MK47_IR_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
-                if(transformType.isFirstPerson()) {
+                if(transformType.firstPerson()) {
                     RenderUtil.renderLaserModuleModel(SpecialModels.MK47_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
                 }
             }

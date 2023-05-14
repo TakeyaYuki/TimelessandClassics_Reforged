@@ -1,6 +1,6 @@
 package com.tac.guns.client.render.gun.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.handler.ShootingHandler;
 import com.tac.guns.client.render.animation.SCAR_MK20AnimationController;
@@ -14,10 +14,10 @@ import com.tac.guns.init.ModItems;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.attachment.IAttachment;
 import com.tac.guns.util.GunModifierHelper;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -28,12 +28,11 @@ import net.minecraft.item.ItemStack;
  * Author: Timeless Development, and associates.
  */
 public class scar_mk20_animation implements IOverrideModel {
-
     @Override
-    public void render(float partialTicks, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
+    public void render(float v, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay)
     {
         SCAR_MK20AnimationController controller = SCAR_MK20AnimationController.getInstance();
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.SCAR_MK20_BODY.getModel(), SCAR_MK20AnimationController.INDEX_BODY, transformType, matrices);
             if (Gun.getScope(stack) == null) {
@@ -50,41 +49,40 @@ public class scar_mk20_animation implements IOverrideModel {
             }
 
             if (Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.SILENCER.orElse(ItemStack.EMPTY.getItem())) {
-                matrices.push();
-                matrices.translate(0, 0, -0.285f);
+                matrices.pushPose();
+                matrices.translate(0, 0, -0.1f);
                 RenderUtil.renderModel(SpecialModels.SCAR_MK20_SUPPRESSOR.getModel(), stack, matrices, renderBuffer, light, overlay);
-                matrices.translate(0, 0, 0.285f);
-                matrices.pop();
+                matrices.translate(0, 0, 0.1f);
+                matrices.popPose();
             } else if (Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.MUZZLE_COMPENSATOR.orElse(ItemStack.EMPTY.getItem())) {
-                matrices.translate(0, 0, -0.11f);
                 RenderUtil.renderModel(SpecialModels.SCAR_MK20_COMPENSATOR.getModel(), stack, matrices, renderBuffer, light, overlay);
-                matrices.translate(0, 0, 0.11f);
             } else if (Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.MUZZLE_BRAKE.orElse(ItemStack.EMPTY.getItem())) {
-                matrices.translate(0, 0, -0.11f);
                 RenderUtil.renderModel(SpecialModels.SCAR_MK20_BRAKE.getModel(), stack, matrices, renderBuffer, light, overlay);
-                matrices.translate(0, 0, 0.11f);
-            } else {
-                matrices.translate(0, 0, -0.11f);
+            } else
                 RenderUtil.renderModel(SpecialModels.SCAR_MK20_DEFAULT_BARREL.getModel(), stack, matrices, renderBuffer, light, overlay);
-                matrices.translate(0, 0, 0.11f);
-            }
 
             RenderUtil.renderModel(SpecialModels.SCAR_MK20_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() == ModItems.BASIC_LASER.orElse(ItemStack.EMPTY.getItem())) {
-                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_B_LASER.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, light, overlay);
-                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_B_LASER_BEAM.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
+                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_MINI_LASER.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, light, overlay);
+                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_MINI_LASER_BEAM.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
             }
             else if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() != ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()) || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem())) {
-                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_IR_LASER_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
-                if(transformType.isFirstPerson()) {
-                    RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
+                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_IR_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
+                matrices.pushPose();
+                if(transformType.firstPerson()) {
+                    // TODO: Build some sort of scaler for this
+                    matrices.translate(0, 0, -0.35);
+                    matrices.scale(1, 1, 9);
+                    matrices.translate(0, 0, 0.35);
+                    RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
                 }
+                matrices.popPose();
             }
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.SCAR_MK20_BODY.getModel(), SCAR_MK20AnimationController.INDEX_MAGAZINE, transformType, matrices);
             if (GunModifierHelper.getAmmoCapacity(stack) > -1) {
@@ -93,11 +91,11 @@ public class scar_mk20_animation implements IOverrideModel {
                 RenderUtil.renderModel(SpecialModels.SCAR_MK20_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
-            if(transformType.isFirstPerson()) {
+            if(transformType.firstPerson() && controller.isAnimationRunning(GunAnimationController.AnimationLabel.RELOAD_EMPTY)) {
                 controller.applySpecialModelTransform(SpecialModels.SCAR_MK20_BODY.getModel(), SCAR_MK20AnimationController.INDEX_MAGAZINE2, transformType, matrices);
                 if (GunModifierHelper.getAmmoCapacity(stack) > -1) {
                     RenderUtil.renderModel(SpecialModels.SCAR_MK20_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
@@ -106,14 +104,15 @@ public class scar_mk20_animation implements IOverrideModel {
                 }
             }
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
-            if(transformType.isFirstPerson()) {
+            if(transformType.firstPerson()) {
                 controller.applySpecialModelTransform(SpecialModels.SCAR_MK20_BODY.getModel(), SCAR_MK20AnimationController.INDEX_BOLT, transformType, matrices);
                 Gun gun = ((GunItem) stack.getItem()).getGun();
                 float cooldownOg = ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate()) < 0 ? 1 : ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate());
+
 
                 AnimationMeta reloadEmpty = controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY);
                 boolean shouldOffset = reloadEmpty != null && reloadEmpty.equals(controller.getPreviousAnimation()) && controller.isAnimationRunning();
@@ -129,7 +128,7 @@ public class scar_mk20_animation implements IOverrideModel {
             }
             RenderUtil.renderModel(SpecialModels.SCAR_MK20_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.pop();
+        matrices.popPose();
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
     }
 }

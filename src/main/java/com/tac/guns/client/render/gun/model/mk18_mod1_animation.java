@@ -1,8 +1,6 @@
 package com.tac.guns.client.render.gun.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.animation.MK18MOD1AnimationController;
 import com.tac.guns.client.render.animation.module.PlayerHandAnimation;
@@ -12,18 +10,13 @@ import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.init.ModItems;
 import com.tac.guns.item.attachment.IAttachment;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.CooldownTracker;
 import com.tac.guns.util.GunModifierHelper;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.item.ItemStack;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -36,10 +29,10 @@ import org.lwjgl.opengl.GL11;
 public class mk18_mod1_animation implements IOverrideModel {
 
     @Override
-    public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
+    public void render(float v, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay)
     {
         MK18MOD1AnimationController controller = MK18MOD1AnimationController.getInstance();
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.MK18_MOD1_BODY.getModel(), MK18MOD1AnimationController.INDEX_BODY, transformType, matrices);
             if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() == ModItems.BASIC_LASER.orElse(ItemStack.EMPTY.getItem())) {
@@ -48,15 +41,15 @@ public class mk18_mod1_animation implements IOverrideModel {
             }
             else if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() != ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()) || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem())) {
                 RenderUtil.renderLaserModuleModel(SpecialModels.MK18_MOD1_IR_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
-                matrices.push();
-                if(transformType.isFirstPerson()) {
+                matrices.pushPose();
+                if(transformType.firstPerson()) {
                     // TODO: Build some sort of scaler for this
                     matrices.translate(0, 0, -0.55);
                     matrices.scale(1, 1, 9);
                     matrices.translate(0, 0, 0.55);
                     RenderUtil.renderLaserModuleModel(SpecialModels.MK18_MOD1_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
                 }
-                matrices.pop();
+                matrices.popPose();
             }
             if (Gun.getScope(stack) == null) {
                 RenderUtil.renderModel(SpecialModels.MK18_MOD1_SIGHT.getModel(), stack, matrices, renderBuffer, light, overlay);
@@ -93,11 +86,11 @@ public class mk18_mod1_animation implements IOverrideModel {
 
             RenderUtil.renderModel(SpecialModels.MK18_MOD1_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
 
-            matrices.push();
+            matrices.pushPose();
             {
-                if(transformType.isFirstPerson()) {
-                    CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
-                    float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+                if(transformType.firstPerson()) {
+                    ItemCooldowns tracker = Minecraft.getInstance().player.getCooldowns();
+                    float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
 
                     if (Gun.hasAmmo(stack)) {
                         // Math provided by Bomb787 on GitHub and Curseforge!!!
@@ -110,11 +103,11 @@ public class mk18_mod1_animation implements IOverrideModel {
                 }
                 RenderUtil.renderModel(SpecialModels.MK18_MOD1_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
-            matrices.pop();
+            matrices.popPose();
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.MK18_MOD1_BODY.getModel(), MK18MOD1AnimationController.INDEX_MAGAZINE, transformType, matrices);
 
@@ -124,7 +117,7 @@ public class mk18_mod1_animation implements IOverrideModel {
                 RenderUtil.renderModel(SpecialModels.MK18_MOD1_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
         }
-        matrices.pop();
+        matrices.popPose();
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
     }
 }
