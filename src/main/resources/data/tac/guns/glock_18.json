@@ -47,7 +47,6 @@
     "reloadEmpty": "tac:animation.glock_18_reload_empty",
     "draw": "tac:animation.glock_18_draw",
     "inspect": "tac:animation.glock_18_inspect",
-    "inspectEmpty": "tac:animation.glock_18_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.glock18_fire_s"
   },
@@ -76,6 +75,11 @@
         "yOffset": 1000.89,
         "zOffset": 5.35,
         "scale": 0.0
+      },
+      "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
       },
       "pistolScope": {
         "yOffset": 10.275,

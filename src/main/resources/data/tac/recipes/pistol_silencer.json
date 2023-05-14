@@ -3,24 +3,18 @@
   "materials": [
     {
       "item": {
-        "tag": "forge:materials/epic"
-      },
-      "count": 3
-    },
-    {
-      "item": {
         "tag": "forge:materials/rare"
       },
       "count": 4
     },
     {
       "item": {
-        "tag": "forge:materials/uncommon"
+        "tag": "forge:leather"
       },
-      "count": 4
+      "count": 2
     }
   ],
   "result": {
-    "item": "tac:scar_l"
+    "item": "tac:pistol_silencer"
   }
 }

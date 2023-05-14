@@ -46,7 +46,6 @@
     "reloadEmpty": "tac:animation.glock17_reload_empty",
     "draw": "tac:animation.glock17_draw",
     "inspect": "tac:animation.glock17_inspect",
-    "inspectEmpty": "tac:animation.glock17_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.ttig34_fire_s"
   },
@@ -77,6 +76,11 @@
         "scale": 2,
         "doRenderMount": false,
         "doOnSlideMovement": true
+      },
+      "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
       },
       "extendedMag": {
         "yOffset": 1000.89,

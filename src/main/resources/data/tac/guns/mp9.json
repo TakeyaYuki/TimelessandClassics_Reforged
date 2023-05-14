@@ -26,7 +26,7 @@
     "reloadMagTimer": 32,
     "additionalReloadEmptyMagTimer": 10,
     "maxAdditionalAmmoPerOC": [5, 10, 20],
-    "preReloadPauseTicks": 8
+    "preReloadPauseTicks": 0
   },
   "projectile": {
     "item": "tac:9mm_round",
@@ -48,7 +48,6 @@
     "reloadEmpty": "tac:animation.mp9_reload_empty",
     "draw": "tac:animation.mp9_draw",
     "inspect": "tac:animation.mp9_inspect",
-    "inspectEmpty": "tac:animation.mp9_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.mp9_fire_s"
   },
@@ -82,6 +81,11 @@
         "scale": 1.0,
         "doRenderMount": true,
         "doOnSlideMovement": false
+      },
+      "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
       },
       "extendedMag": {
         "yOffset": 1000.89,

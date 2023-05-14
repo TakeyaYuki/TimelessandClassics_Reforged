@@ -1,44 +1,43 @@
 {
   "general": {
-    "auto": true,
-    "rate": 600,
-    "rateSelector": [1, 2],
+    "rate": 200,
+    "rateSelector": [1],
     "gripType": "tac:two_handed_ak47",
-    "recoilAngle": 3.15,
-    "horizontalRecoilAngle": 1.5,
-    "recoilKick": 1.95,
-    "recoilAdsReduction": 0.22,
-    "weaponRecoilOffset": 0.785,
-    "cameraRecoilModifier": 1.325,
-    "recoilDuration": 0.27,
-    "weightKilo": 6.90,
+    "recoilAngle": 4.0,
+    "horizontalRecoilAngle": 1.95,
+    "recoilKick": 2.2,
+    "recoilAdsReduction": 0.295,
+    "weaponRecoilOffset": 0.825,
+    "cameraRecoilModifier": 1.225,
+    "recoilDuration": 0.24,
+    "weightKilo": 7.60,
 
-    "spread": 1.675,
-    "firstShotSpread": 0.075,
-    "hipFireInaccuracy": 6.6,
-    "projToMinAccuracy": 4,
-    "msToAccuracyReset": 400,
-    "movementInaccuracy": 0.75
+    "spread": 1.15,
+    "firstShotSpread": 0.005,
+    "hipFireInaccuracy": 9.5,
+    "projToMinAccuracy": 5,
+    "msToAccuracyReset": 660,
+    "movementInaccuracy": 0.25
   },
   "projectile": {
     "item": "tac:bullet_308",
     "visible": false,
-    "damage": 11,
-    "armorIgnore": 1.0,
-    "critical": 0.00,
-    "criticalDamage": 0.75,
+    "damage": 20,
+    "armorIgnore": 1.5,
+    "critical": 0.0,
+    "criticalDamage": 1.0,
     "headDamage": 1.0,
     "size": 0.15,
-    "speed": 19.5,
-    "life": 14,
-    "trailLengthMultiplier": 2.75
+    "speed": 28.5,
+    "life": 18,
+    "trailLengthMultiplier": 3.0
   },
   "reloads": {
     "magFed": true,
-    "maxAmmo": 20,
+    "maxAmmo": 10,
     "reloadMagTimer": 33,
     "additionalReloadEmptyMagTimer": 16,
-   "maxAdditionalAmmoPerOC": [3, 6, 10],
+    "maxAdditionalAmmoPerOC": [3, 6, 10],
     "preReloadPauseTicks": 0
   },
   "sounds": {
@@ -53,8 +52,8 @@
   "display": {
     "flash": {
       "yOffset": 9.445,
-      "zOffset": -19.95,
-      "size": 0.8,
+      "zOffset": -23.45,
+      "size": 0.7,
       "trailAdjust": 1.2875
     },
     "hipfireScale": 1.55,
@@ -65,7 +64,7 @@
   },
   "modules": {
     "zoom": {
-      "fovModifier": 0.8,
+      "fovModifier": 0.7,
       "yOffset": 12.845,
       "zOffset": -5.805
     },
@@ -97,9 +96,14 @@
         "zOffset": -2.35,
         "scale": 0.00
       },
+      "irDevice": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
+      },
       "barrel": {
         "yOffset": -100829.84,
-        "zOffset": -22.80,
+        "zOffset": -24.80,
         "scale": 1.00
       }
     }

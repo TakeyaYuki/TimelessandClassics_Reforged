@@ -46,7 +46,6 @@
     "reloadEmpty": "tac:animation.m92fs_reload_empty",
     "draw": "tac:animation.m92fs_draw",
     "inspect": "tac:animation.m92fs_inspect",
-    "inspectEmpty": "tac:animation.m92fs_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.m92fs_fire_s"
   },
@@ -70,6 +69,11 @@
         "yOffset": -100829.84,
         "zOffset": -11.55,
         "scale": 1.00
+      },
+      "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
       },
       "extendedMag": {
         "yOffset": 1000.89,

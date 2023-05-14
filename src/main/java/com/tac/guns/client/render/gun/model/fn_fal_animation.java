@@ -1,26 +1,30 @@
 package com.tac.guns.client.render.gun.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.tac.guns.Config;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.handler.ShootingHandler;
+import com.tac.guns.client.render.animation.CZ75AnimationController;
 import com.tac.guns.client.render.animation.FNFALAnimationController;
 import com.tac.guns.client.render.animation.module.AnimationMeta;
 import com.tac.guns.client.render.animation.module.GunAnimationController;
 import com.tac.guns.client.render.animation.module.PlayerHandAnimation;
 import com.tac.guns.client.render.gun.IOverrideModel;
+import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.init.ModItems;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.attachment.IAttachment;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Vector3f;
 import com.tac.guns.util.GunModifierHelper;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -33,54 +37,49 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 public class fn_fal_animation implements IOverrideModel {
 
     @Override
-    public void render(float v, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay)
+    public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
     {
         
 
         FNFALAnimationController controller = FNFALAnimationController.getInstance();
 
-        matrices.pushPose();
+        matrices.push();
         {
             controller.applySpecialModelTransform(SpecialModels.FN_FAL.getModel(), FNFALAnimationController.INDEX_BODY,transformType,matrices);
             if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() == ModItems.BASIC_LASER.orElse(ItemStack.EMPTY.getItem())) {
                 RenderUtil.renderLaserModuleModel(SpecialModels.FN_FAL_BASIC_LASER_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, light, overlay);
-                matrices.pushPose();
-                matrices.translate(0, 0, -0.585);
-                matrices.scale(1, 1, 11);
-                matrices.translate(0, 0, 0.585);
                 RenderUtil.renderLaserModuleModel(SpecialModels.FN_FAL_BASIC_LASER.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
-                matrices.popPose();
             }
             else if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() != ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()) || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem())) {
                 RenderUtil.renderLaserModuleModel(SpecialModels.FN_FAL_IR_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
-                matrices.pushPose();
-                if(transformType.firstPerson()) {
+                matrices.push();
+                if(transformType.isFirstPerson()) {
                     // TODO: Build some sort of scaler for this
                     matrices.translate(0, 0, -0.65);
                     matrices.scale(1, 1, 9);
                     matrices.translate(0, 0, 0.65);
                     RenderUtil.renderLaserModuleModel(SpecialModels.FN_FAL_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
                 }
-                matrices.popPose();
+                matrices.pop();
             }
             if(Gun.getScope(stack) != null)
             {
                 RenderUtil.renderModel(SpecialModels.FN_FAL_MOUNT.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
 
-            if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack) == ItemStack.EMPTY)
-            {
-                RenderUtil.renderModel(SpecialModels.FN_FAL_STANDARD_HANDGUARD.getModel(), stack, matrices, renderBuffer, light, overlay);
-            }
-            else
+            if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack) != ItemStack.EMPTY || Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack) != ItemStack.EMPTY || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()))
             {
                 RenderUtil.renderModel(SpecialModels.FN_FAL_EXTENDED_HANDGUARD.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
+            else
+            {
+                RenderUtil.renderModel(SpecialModels.FN_FAL_STANDARD_HANDGUARD.getModel(), stack, matrices, renderBuffer, light, overlay);
+            }
 
-            if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.ACCELERATOR.get(), stack) > 0)
+            if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.ACCELERATOR.get(), stack) > 0)
             {
                 RenderUtil.renderModel(SpecialModels.FN_FAL_EXTENDED_BARREL.getModel(), stack, matrices, renderBuffer, light, overlay);
-                if(GunRenderingHandler.get().muzzleExtraOnEnch == 0 && entity.getMainHandItem() == stack)
+                if(GunRenderingHandler.get().muzzleExtraOnEnch == 0 && entity.getHeldItemMainhand() == stack)
                     GunRenderingHandler.get().muzzleExtraOnEnch = -8.125f;
             }
             else
@@ -98,7 +97,7 @@ public class fn_fal_animation implements IOverrideModel {
             }
             RenderUtil.renderModel(SpecialModels.FN_FAL.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.popPose();
+        matrices.pop();
 
         /*if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack).getItem() == ModItems.LIGHT_GRIP.orElse(ItemStack.EMPTY.getItem()))
         {
@@ -114,7 +113,7 @@ public class fn_fal_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.AR_15_CQB_STANDARD_FLASHLIGHT.getModel(), stack, matrices, renderBuffer, light, overlay);
         }*/
 
-        matrices.pushPose();
+        matrices.push();
         {
             controller.applySpecialModelTransform(SpecialModels.FN_FAL.getModel(), FNFALAnimationController.INDEX_MAGAZINE,transformType,matrices);
             if(GunModifierHelper.getAmmoCapacity(stack) > -1)
@@ -126,21 +125,22 @@ public class fn_fal_animation implements IOverrideModel {
                 RenderUtil.renderModel(SpecialModels.FN_FAL_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
         }
-        matrices.popPose();
+        matrices.pop();
 
-        matrices.pushPose();
+        matrices.push();
         {
             controller.applySpecialModelTransform(SpecialModels.FN_FAL.getModel(), FNFALAnimationController.INDEX_HANDLE,transformType,matrices);
             RenderUtil.renderModel(SpecialModels.FN_FAL_HANDLE.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.popPose();
+        matrices.pop();
 
-        matrices.pushPose();
+        matrices.push();
         controller.applySpecialModelTransform(SpecialModels.FN_FAL.getModel(), FNFALAnimationController.INDEX_BOLT,transformType,matrices);
 
         Gun gun = ((GunItem) stack.getItem()).getGun();
         float cooldownOg = ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate()) < 0 ? 1 : ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate());
-        if(transformType.firstPerson()) {
+
+        if(transformType.isFirstPerson()) {
             AnimationMeta reloadEmpty = controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY);
             boolean shouldOffset = reloadEmpty != null && reloadEmpty.equals(controller.getPreviousAnimation()) && controller.isAnimationRunning();
             if (Gun.hasAmmo(stack) || shouldOffset) {
@@ -153,7 +153,7 @@ public class fn_fal_animation implements IOverrideModel {
             }
         }
         RenderUtil.renderModel(SpecialModels.FN_FAL_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.popPose();
+        matrices.pop();
 
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
     }

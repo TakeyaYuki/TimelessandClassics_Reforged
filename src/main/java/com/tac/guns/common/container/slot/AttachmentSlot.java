@@ -1,21 +1,24 @@
 package com.tac.guns.common.container.slot;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.client.handler.ReloadHandler;
 import com.tac.guns.common.Gun;
+import com.tac.guns.common.ReloadTracker;
 import com.tac.guns.common.container.AttachmentContainer;
 import com.tac.guns.init.ModSounds;
+import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.IrDeviceItem;
 import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.SideRailItem;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.item.attachment.IAttachment;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.DyeItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -25,42 +28,42 @@ public class AttachmentSlot extends Slot
     private AttachmentContainer container;
     private ItemStack weapon;
     private IAttachment.Type type;
-    private Player player;
+    private PlayerEntity player;
     private IAttachment.Type[] types;
+    private int index;
 
-    public AttachmentSlot(AttachmentContainer container, Container weaponInventory, ItemStack weapon, IAttachment.Type type, Player player, int index, int x, int y)
+    public AttachmentSlot(AttachmentContainer container, IInventory weaponInventory, ItemStack weapon, IAttachment.Type type, PlayerEntity player, int index, int x, int y)
     {
         super(weaponInventory, index, x, y);
         this.container = container;
         this.weapon = weapon;
         this.type = type;
         this.player = player;
+        this.index = index;
     }
 
-    public AttachmentSlot(AttachmentContainer container, Container weaponInventory, ItemStack weapon, IAttachment.Type[] types, Player player, int index, int x, int y)
+    public AttachmentSlot(AttachmentContainer container, IInventory weaponInventory, ItemStack weapon, IAttachment.Type[] types, PlayerEntity player, int index, int x, int y)
     {
         super(weaponInventory, index, x, y);
         this.container = container;
         this.weapon = weapon;
         this.types = types;
         this.player = player;
+        this.index = index;
     }
 
     @Override
-    public boolean isActive()
+    public boolean isEnabled()
     {
-        /*if(!(this.weapon.getItem() instanceof GunItem) || !(this.weapon.getItem() instanceof ScopeItem) && !(this.weapon.getItem() instanceof SideRailItem))
-        {
-            return false;
-        }*/
-        if((this.type == IAttachment.Type.EXTENDED_MAG && this.weapon.getOrCreateTag().getInt("AmmoCount") > ((TimelessGunItem)this.weapon.getItem()).getGun().getReloads().getMaxAmmo())/* || ReloadHandler.get().isReloading()*/) {
+        this.weapon.inventoryTick(player.world, player, index, true);
+        if((this.type == IAttachment.Type.EXTENDED_MAG && this.weapon.getOrCreateTag().getInt("AmmoCount") > ((TimelessGunItem)this.weapon.getItem()).getGun().getReloads().getMaxAmmo()) || SyncedPlayerData.instance().get(player, ModSyncedDataKeys.RELOADING)) {
             return false;
         }
-        if(this.player.getMainHandItem().getItem() instanceof ScopeItem || this.player.getMainHandItem().getItem() instanceof SideRailItem)
+        if((this.player.getHeldItemMainhand().getItem() instanceof ScopeItem || this.player.getHeldItemMainhand().getItem() instanceof SideRailItem || this.player.getHeldItemMainhand().getItem() instanceof IrDeviceItem))
         {
             return true;
         }
-        else
+        else if (this.weapon.getItem() instanceof GunItem)
         {
             GunItem item = (GunItem) this.weapon.getItem();
             Gun modifiedGun = item.getModifiedGun(this.weapon);
@@ -75,17 +78,20 @@ public class AttachmentSlot extends Slot
             }
             return false;
         }
+        return false;
     }
 
     @Override
-    public boolean mayPlace(ItemStack stack)
+    public boolean isItemValid(ItemStack stack)
     {
-        if((this.type == IAttachment.Type.EXTENDED_MAG && this.weapon.getOrCreateTag().getInt("AmmoCount") > ((TimelessGunItem)this.weapon.getItem()).getGun().getReloads().getMaxAmmo()) || ReloadHandler.get().isReloading()) {
+        if((this.type == IAttachment.Type.EXTENDED_MAG && this.weapon.getOrCreateTag().getInt("AmmoCount") > ((TimelessGunItem)this.weapon.getItem()).getGun().getReloads().getMaxAmmo()) || SyncedPlayerData.instance().get(player, ModSyncedDataKeys.RELOADING)) {
             return false;
         }
-        if((this.player.getMainHandItem().getItem() instanceof ScopeItem || this.player.getMainHandItem().getItem() instanceof SideRailItem) && stack.getItem() instanceof DyeItem /*instanceof DyeItem && !(this.weapon.getItem() instanceof
-        GunItem)*/)
-            return true;
+        if(this.player.getHeldItemMainhand().getItem() instanceof ScopeItem || this.player.getHeldItemMainhand().getItem() instanceof SideRailItem || this.player.getHeldItemMainhand().getItem() instanceof IrDeviceItem)
+            if(stack.getItem() instanceof DyeItem)
+                return true;
+            else
+                return false;
         else
         {
             GunItem item = (GunItem) this.weapon.getItem();
@@ -98,29 +104,28 @@ public class AttachmentSlot extends Slot
                         return true;
                 }
             }
-            return false;//stack.getItem() instanceof IAttachment && ((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type);
+            return false;
         }
     }
 
     @Override
-    public void setChanged()
+    public void onSlotChanged()
     {
         if(this.container.isLoaded())
         {
-            this.player.level.playSound(null, this.player.getX(), this.player.getY() + 1.0, this.player.getZ(), ModSounds.UI_WEAPON_ATTACH.get(), SoundSource.PLAYERS, 0.5F, this.hasItem() ? 1.0F : 0.75F);
+            this.player.world.playSound(null, this.player.getPosX(), this.player.getPosY() + 1.0, this.player.getPosZ(), ModSounds.UI_WEAPON_ATTACH.get(), SoundCategory.PLAYERS, 0.5F, this.getHasStack() ? 1.0F : 0.75F);
         }
     }
 
     @Override
-    public int getMaxStackSize()
+    public int getSlotStackLimit()
     {
         return 1;
     }
 
     @Override
-    public boolean mayPickup(Player player)
+    public boolean canTakeStack(PlayerEntity player)
     {
-        //ItemStack itemstack = this.getStack();
         return true;
     }
 }

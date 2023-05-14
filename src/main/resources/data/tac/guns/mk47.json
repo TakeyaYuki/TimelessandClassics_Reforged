@@ -25,7 +25,7 @@
     "visible": false,
     "damage": 8,
     "armorIgnore": 1.0,
-    "critical": 0.05,
+    "critical": 0.00,
     "criticalDamage": 0.75,
     "headDamage": 1.0,
     "size": 0.1,
@@ -47,7 +47,6 @@
     "reloadEmpty": "tac:animation.mk47_reload_empty",
     "draw": "tac:animation.mk47_draw",
     "inspect": "tac:animation.mk47_inspect",
-    "inspectEmpty": "tac:animation.mk47_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.mk47_fire_s"
   },
@@ -83,6 +82,16 @@
       "stock": {
         "yOffset": 7.75,
         "zOffset": -22.05,
+        "scale": 0.00
+      },
+      "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
+      },
+      "irDevice": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
         "scale": 0.00
       },
       "scope": {

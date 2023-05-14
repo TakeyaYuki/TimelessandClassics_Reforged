@@ -34,7 +34,7 @@
     "visible": false,
     "damage": 7.15,
     "armorIgnore": 1.0,
-    "critical": 0.05,
+    "critical": 0.00,
     "criticalDamage": 0.75,
     "headDamage": 1.0,
     "size": 0.075,
@@ -49,7 +49,6 @@
     "reloadEmpty": "tac:animation.m16a4_reload_empty",
     "draw": "tac:animation.m16a4_draw",
     "inspect": "tac:animation.m16a4_inspect",
-    "inspectEmpty": "tac:animation.m16a4_inspect_empty",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.m16a4_fire_s"
   },
@@ -94,6 +93,11 @@
         "scale": 0.00
       },
       "sideRail": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
+      },
+      "irDevice": {
         "yOffset": 7.799,
         "zOffset": -2.35,
         "scale": 0.00
