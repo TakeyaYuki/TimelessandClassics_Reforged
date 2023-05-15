@@ -45,7 +45,7 @@ public class CrosshairHandler
 
     private CrosshairHandler()
     {
-        this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "better_default")));
+        /*this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "better_default")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "circle")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "filled_circle"), false));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "square")));
@@ -56,7 +56,7 @@ public class CrosshairHandler
         //this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "hit_marker")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "line")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "t")));
-        this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "smiley")));
+        this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "smiley")));*/
         this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"dynamic_default")));
         this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"clean_no_crosshair")));
         this.register(new TechCrosshair());

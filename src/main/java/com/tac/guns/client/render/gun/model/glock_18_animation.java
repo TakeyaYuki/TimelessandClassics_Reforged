@@ -52,8 +52,8 @@ public class glock_18_animation implements IOverrideModel
             RenderUtil.renderModel(SpecialModels.GLOCK_18.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
         matrices.popPose();
+
         matrices.pushPose();
-        if(GunModifierHelper.getAmmoCapacity(stack) > -1)
         {
             controller.applySpecialModelTransform(SpecialModels.GLOCK_18.getModel(),Glock18AnimationController.INDEX_MAG,transformType,matrices);
             if (GunModifierHelper.getAmmoCapacity(stack) > -1) {
@@ -64,7 +64,7 @@ public class glock_18_animation implements IOverrideModel
         }
         matrices.popPose();
 
-        if(controller.isAnimationRunning(GunAnimationController.AnimationLabel.RELOAD_NORMAL)) {
+        if(transformType.firstPerson() && controller.isAnimationRunning()) {
             matrices.pushPose();
             {
                 controller.applySpecialModelTransform(SpecialModels.GLOCK_18.getModel(), Glock18AnimationController.INDEX_EXTRA_MAG, transformType, matrices);
@@ -77,7 +77,7 @@ public class glock_18_animation implements IOverrideModel
             matrices.popPose();
         }
 
-        //Always push
+            //Always push
         matrices.pushPose();
 
         controller.applySpecialModelTransform(SpecialModels.GLOCK_18.getModel(),Glock18AnimationController.INDEX_SLIDE,transformType,matrices);

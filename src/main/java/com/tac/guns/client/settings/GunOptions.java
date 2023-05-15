@@ -82,16 +82,24 @@ public class GunOptions
    }, (p_193682_, p_193683_, p_193684_) -> {
       p_193682_.guiScale = p_193684_;
    });*/
+
+    public static final CycleOption<Boolean> AUTO_SUGGESTIONS = CycleOption.createOnOff("options.autoSuggestCommands", (p_168340_) -> {
+        return p_168340_.autoSuggestions;
+    }, (p_168342_, p_168343_, p_168344_) -> {
+        p_168342_.autoSuggestions = p_168344_;
+    });
     public static final CycleOption<Boolean> DOUBLE_RENDER_EXIST = CycleOption.createOnOff("tac.options.doubleRender", (settings) -> {
         return Config.CLIENT.display.scopeDoubleRender.get();
     }, (settings, option, value) -> {
         Config.CLIENT.display.scopeDoubleRender.set(value);
+        settings.save();
         Config.saveClientConfig();
     });
     public static final CycleOption<Boolean> SHOW_FPS_TRAILS_EXIST = CycleOption.createOnOff("tac.options.showFirstPersonBulletTrails", (settings) -> {
         return Config.CLIENT.display.showFirstPersonBulletTrails.get();
     }, (settings, option, value) -> {
         Config.CLIENT.display.showFirstPersonBulletTrails.set(value);
+        settings.save();
         Config.saveClientConfig();
     });
 
