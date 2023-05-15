@@ -2,8 +2,12 @@ package com.tac.guns.client.settings;
 
 import com.tac.guns.Config;
 import com.tac.guns.client.handler.CrosshairHandler;
+import com.tac.guns.client.render.crosshair.Crosshair;
+import net.minecraft.client.CycleOption;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.ProgressOption;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -38,17 +42,16 @@ public class GunOptions
 */
 
 
-    /*private static Object CrosshairHandler;
     public static final Option CROSSHAIR = new GunListOption<>("tac.options.crosshair", () -> {
         return CrosshairHandler.get().getRegisteredCrosshairs();
     }, () -> {
         return ResourceLocation.tryParse(Config.CLIENT.display.crosshair.get());
-    }, (value) -> {
-        Config.CLIENT.display.crosshair.set(value toString());
+    }, (ResourceLocation value) -> {
+        Config.CLIENT.display.crosshair.set(value.toString());
         Config.saveClientConfig();
         CrosshairHandler.get().setCrosshair(value);
-    }, (value) -> {
-        ResourceLocation id = value.getLocation();
+    }, (Crosshair value) -> {
+        ResourceLocation id = value.getLocation();//  getLocation();
         return new TranslatableComponent(id.getNamespace() + ".crosshair." + id.getPath());
     }).setRenderer((button, matrixStack, partialTicks) -> {
         matrixStack.pushPose();
@@ -60,7 +63,7 @@ public class GunOptions
             if(crosshair.isDefault())
             {
                 Minecraft mc = Minecraft.getInstance();
-                mc.getTextureManager().bind(GuiComponent.GUI_ICONS_LOCATION);
+                mc.getTextureManager().bindForSetup(GuiComponent.GUI_ICONS_LOCATION);
                 GuiComponent.blit(matrixStack, (16 - 15) / 2, (16 - 15) / 2, 0, 0, 0, 15, 15, 256, 256);
             }
             else
@@ -70,19 +73,27 @@ public class GunOptions
         }
         matrixStack.popPose();
     });
-
-    public static final BooleanOption DOUBLE_RENDER_EXIST = new BooleanOption("tac.options.doubleRender", (settings) -> {
+/*public static final CycleOption GUI_SCALE = CycleOption.create("options.guiScale", () -> {
+      return IntStream.rangeClosed(0, Minecraft.getInstance().getWindow().calculateScale(0, Minecraft.getInstance().isEnforceUnicode())).boxed().collect(Collectors.toList());
+   }, (p_193700_) -> {
+      return (Component)(p_193700_ == 0 ? new TranslatableComponent("options.guiScale.auto") : new TextComponent(Integer.toString(p_193700_)));
+   }, (p_193609_) -> {
+      return p_193609_.guiScale;
+   }, (p_193682_, p_193683_, p_193684_) -> {
+      p_193682_.guiScale = p_193684_;
+   });*/
+    public static final CycleOption<Boolean> DOUBLE_RENDER_EXIST = CycleOption.createOnOff("tac.options.doubleRender", (settings) -> {
         return Config.CLIENT.display.scopeDoubleRender.get();
-    }, (settings, value) -> {
+    }, (settings, option, value) -> {
         Config.CLIENT.display.scopeDoubleRender.set(value);
         Config.saveClientConfig();
     });
-    public static final BooleanOption SHOW_FPS_TRAILS_EXIST = new BooleanOption("tac.options.showFirstPersonBulletTrails", (settings) -> {
+    public static final CycleOption<Boolean> SHOW_FPS_TRAILS_EXIST = CycleOption.createOnOff("tac.options.showFirstPersonBulletTrails", (settings) -> {
         return Config.CLIENT.display.showFirstPersonBulletTrails.get();
-    }, (settings, value) -> {
+    }, (settings, option, value) -> {
         Config.CLIENT.display.showFirstPersonBulletTrails.set(value);
         Config.saveClientConfig();
-    });*/
+    });
 
 
 

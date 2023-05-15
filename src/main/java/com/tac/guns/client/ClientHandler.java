@@ -78,7 +78,9 @@ public class ClientHandler
     public static void setup( Minecraft mc ) {
         MinecraftForge.EVENT_BUS.register(AimingHandler.get());
         MinecraftForge.EVENT_BUS.register(BulletTrailRenderingHandler.get());
+
         MinecraftForge.EVENT_BUS.register(CrosshairHandler.get());
+
         MinecraftForge.EVENT_BUS.register(GunRenderingHandler.get());
         MinecraftForge.EVENT_BUS.register(RecoilHandler.get());
         MinecraftForge.EVENT_BUS.register(ReloadHandler.get());
@@ -228,7 +230,7 @@ public class ClientHandler
             try
             {
                 OptionsList list = (OptionsList) mouseOptionsField.get(screen);
-                list.addSmall(new Option[]{GunOptions.ADS_SENSITIVITY}/*, GunOptions.CROSSHAIR*/);
+                list.addSmall(new Option[]{GunOptions.ADS_SENSITIVITY,GunOptions.CROSSHAIR});
                 /*, GunOptions.BURST_MECH);*/
             }
             catch(IllegalAccessException e)

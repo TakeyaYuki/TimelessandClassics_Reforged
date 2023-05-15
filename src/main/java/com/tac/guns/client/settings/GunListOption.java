@@ -1,12 +1,28 @@
 package com.tac.guns.client.settings;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.interfaces.IResourceLocation;
+import net.minecraft.client.Option;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.OptionsList;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import net.minecraft.network.chat.Component;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class GunListOption<E extends IResourceLocation>
-{   /*
+public class GunListOption<E extends IResourceLocation> extends Option
+{
     private String title;
     private ResourceLocation selected;
     private Supplier<List<E>> supplier;
@@ -31,10 +47,11 @@ public class GunListOption<E extends IResourceLocation>
         return this;
     }
 
+
     @Override
     public AbstractWidget createButton(Options options, int x, int y, int width)
     {
-        return new OptionButton(x, y, width, 20, this, this.getTitle(), (button) -> {
+        return new Button(x, y, width, 20, this.getTitle(), (button) -> {
             List<E> list = this.supplier.get();
             if(list.isEmpty())
                 return;
@@ -104,7 +121,6 @@ public class GunListOption<E extends IResourceLocation>
 
     public interface IAdditionalRenderer
     {
-        void render(OptionButton button, PoseStack matrixStack, float partialTicks);
+        void render(Button button, PoseStack matrixStack, float partialTicks);
     }
-    */
 }

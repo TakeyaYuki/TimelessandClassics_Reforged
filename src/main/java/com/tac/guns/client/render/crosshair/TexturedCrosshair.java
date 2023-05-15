@@ -38,35 +38,6 @@ public class TexturedCrosshair extends Crosshair
         this.blend = blend;
     }
 
-    public void renderHitMarker(Minecraft mc, PoseStack stack, int windowWidth, int windowHeight, float alpha)
-    {
-        //float alpha = 1.0F * Math.abs((stepping-1)*0.5f) ;
-        float size = 8.0F;
-        stack.translate((windowWidth - size) / 2F, (windowHeight - size) / 2F, 0);
-        RenderSystem.setShaderTexture(0, this.texture);
-        RenderSystem.enableBlend();
-
-        if(this.blend)
-        {
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        }
-
-        Matrix4f matrix = stack.last().pose();
-        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        buffer.vertex(matrix, 0, size, 0).uv(0, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-        buffer.vertex(matrix, size, size, 0).uv(1, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-        buffer.vertex(matrix, size, 0, 0).uv(1, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-        buffer.vertex(matrix, 0, 0, 0).uv(0, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-        buffer.end();
-        BufferUploader.end(buffer);
-
-        if(this.blend)
-        {
-            RenderSystem.defaultBlendFunc();
-        }
-    }
-
     @Override
     public void render(Minecraft mc, PoseStack stack, int windowWidth, int windowHeight, float partialTicks)
     {
@@ -77,10 +48,10 @@ public class TexturedCrosshair extends Crosshair
         RenderSystem.setShaderTexture(0, this.texture);
         RenderSystem.enableBlend();
 
-        if(this.blend)
+        /*if(this.blend)
         {
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        }
+        }*/
 
         Matrix4f matrix = stack.last().pose();
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
