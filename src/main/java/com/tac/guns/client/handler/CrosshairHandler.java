@@ -45,6 +45,8 @@ public class CrosshairHandler
 
     private CrosshairHandler()
     {
+        //TODO: These render with mis-matched color textures causing a rainbow render instead of anything substancial,
+        //      all those below work due to code editing their shader textures / color blend
         /*this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "better_default")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "circle")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "filled_circle"), false));

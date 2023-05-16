@@ -36,10 +36,7 @@ import net.minecraft.client.Option;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.MouseSettingsScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.VideoSettingsScreen;
+import net.minecraft.client.gui.screens.*;
 import net.minecraft.client.gui.screens.controls.ControlsScreen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -238,9 +235,9 @@ public class ClientHandler
                 e.printStackTrace();
             }
         }
-        if(event.getScreen() instanceof VideoSettingsScreen)
+        if(event.getScreen() instanceof PauseScreen)
         {
-            VideoSettingsScreen screen = (VideoSettingsScreen) event.getScreen();;
+            PauseScreen screen = (PauseScreen) event.getScreen();;
 
             event.addListener((new Button(screen.width / 2 - 215, 10, 75, 20, new TranslatableComponent("tac.options.gui_settings"), (p_213126_1_) -> {
                 Minecraft.getInstance().setScreen(new TaCSettingsScreen(screen, Minecraft.getInstance().options));
