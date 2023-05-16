@@ -91,25 +91,25 @@ minecraft {
     }
 }
 
-//processResources {
-//    doLast {
-//       fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
-//            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
-//        }
-//    }
-//}
+processResources {
+    doLast {
+       fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
+            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+        }
+    }
+}
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
 }
 
-processResources {
-    doLast {
-        fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
-            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
-        }
-    }
-}
+//processResources {
+//    doLast {
+//        fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
+//            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+//        }
+//    }
+//}
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
