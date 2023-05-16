@@ -93,7 +93,7 @@ minecraft {
 
 processResources {
     doLast {
-       fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
+        fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
             File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
         }
     }
