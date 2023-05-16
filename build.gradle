@@ -14,7 +14,7 @@ buildscript {
         //classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-        classpath 'org.codehaus.groovy:groovy-all:2.4.15'
+        //classpath 'org.codehaus.groovy:groovy-all:2.4.15'
     }
 }
 
@@ -91,6 +91,18 @@ minecraft {
     }
 }
 
+//processResources {
+//    doLast {
+//       fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
+//            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+//        }
+//    }
+//}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
 processResources {
     doLast {
         fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
@@ -98,18 +110,6 @@ processResources {
         }
     }
 }
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
-//processResources {
-//    doLast {
-//        fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
-//            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
-//        }
-//    }
-//}
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'

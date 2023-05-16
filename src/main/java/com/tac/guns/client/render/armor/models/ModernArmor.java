@@ -98,7 +98,8 @@ public class ModernArmor extends ArmorBase {
 
 	@Override
 	public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		Light_Armor.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	    Light_Armor.y = 24F;
+	    Light_Armor.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	@Override

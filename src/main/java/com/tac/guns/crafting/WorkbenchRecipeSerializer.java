@@ -11,7 +11,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.common.crafting.CraftingHelper;
 
 import javax.annotation.Nullable;
 
@@ -43,7 +43,7 @@ public class WorkbenchRecipeSerializer extends net.minecraftforge.registries.For
             throw new JsonSyntaxException("Missing result entry");
 
         JsonObject resultObject = GsonHelper.getAsJsonObject(json, "result");
-        ItemStack resultItem = ShapedRecipe.itemFromJson(resultObject).getDefaultInstance();
+        ItemStack resultItem = CraftingHelper.getItemStack(resultObject, false);
         return new WorkbenchRecipe(recipeId, resultItem, builder.build(), group);
     }
 
