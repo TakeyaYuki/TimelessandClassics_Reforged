@@ -31,8 +31,7 @@ import com.tac.guns.util.GunModifierHelper;
 public class m4_animation implements IOverrideModel {
 
     @Override
-    public void render(float v, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay)
-    {
+    public void render(float v, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay) {
         M4AnimationController controller = M4AnimationController.getInstance();
         matrices.pushPose();
         {
@@ -72,16 +71,15 @@ public class m4_animation implements IOverrideModel {
             {
                 RenderUtil.renderModel(SpecialModels.M4_DEFAULT_HANDGUARD.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
-            else
-            {
-                if(Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack) == ItemStack.EMPTY) {
+            else {
+                if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack) == ItemStack.EMPTY) {
                     RenderUtil.renderLaserModuleModel(SpecialModels.M4_EXTENDED_HANDGUARD_V2_L_COVER.getModel(), stack, matrices, renderBuffer, light, overlay);
                     RenderUtil.renderLaserModuleModel(SpecialModels.M4_EXTENDED_HANDGUARD_V2_T_COVER.getModel(), stack, matrices, renderBuffer, light, overlay);
                 }
                 RenderUtil.renderModel(SpecialModels.M4_EXTENDED_HANDGUARD_V2.getModel(), stack, matrices, renderBuffer, light, overlay);
+            }
 
-
-                if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack) == ItemStack.EMPTY)
+            if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack) == ItemStack.EMPTY && Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack) == ItemStack.EMPTY)
             {
                 RenderUtil.renderModel(SpecialModels.M4_DEFAULT_HANDGUARD.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
@@ -149,4 +147,3 @@ public class m4_animation implements IOverrideModel {
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
         }
     }
-}

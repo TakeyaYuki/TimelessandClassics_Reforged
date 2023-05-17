@@ -1,10 +1,8 @@
 package com.tac.guns.client.render.gun.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.handler.ShootingHandler;
-import com.tac.guns.client.render.animation.MAC10AnimationController;
-import com.tac.guns.client.render.animation.MP9AnimationController;
 import com.tac.guns.client.render.animation.UZIAnimationController;
 import com.tac.guns.client.render.animation.module.AnimationMeta;
 import com.tac.guns.client.render.animation.module.GunAnimationController;
@@ -16,20 +14,20 @@ import com.tac.guns.init.ModItems;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.attachment.IAttachment;
 import com.tac.guns.util.GunModifierHelper;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 public class uzi_animation implements IOverrideModel {
 
     //The render method, similar to what is in DartEntity. We can render the item
     @Override
-    public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
+    public void render(float partialTicks, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay)
     {
         UZIAnimationController controller = UZIAnimationController.getInstance();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_BODY, transformType, matrices);
             if (Gun.getScope(stack) != null) {
@@ -43,9 +41,9 @@ public class uzi_animation implements IOverrideModel {
             }
             RenderUtil.renderModel(SpecialModels.UZI.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_MAGAZINE, transformType, matrices);
 
@@ -58,15 +56,15 @@ public class uzi_animation implements IOverrideModel {
                 RenderUtil.renderModel(SpecialModels.UZI_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_BOLT, transformType, matrices);
             Gun gun = ((GunItem) stack.getItem()).getGun();
             float cooldownOg = ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate()) < 0 ? 1 : ShootingHandler.get().getshootMsGap() / ShootingHandler.calcShootTickGap(gun.getGeneral().getRate());
 
-            if(transformType.isFirstPerson()) {
+            if(transformType.firstPerson()) {
                 AnimationMeta reloadEmpty = controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY);
                 boolean shouldOffset = reloadEmpty != null && reloadEmpty.equals(controller.getPreviousAnimation()) && controller.isAnimationRunning();
                 if(!shouldOffset && !Gun.hasAmmo(stack)){
@@ -77,24 +75,24 @@ public class uzi_animation implements IOverrideModel {
             }
             RenderUtil.renderModel(SpecialModels.UZI_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_HANDLE, transformType, matrices);
             RenderUtil.renderModel(SpecialModels.UZI_HANDLE.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_BULLET1, transformType, matrices);
             RenderUtil.renderModel(SpecialModels.UZI_BULLET.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.pop();
+        matrices.popPose();
 
-        if(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_NORMAL).equals(controller.getPreviousAnimation()) && transformType.isFirstPerson()) {
-            matrices.push();
+        if(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_NORMAL).equals(controller.getPreviousAnimation()) && transformType.firstPerson()) {
+            matrices.pushPose();
             {
                 controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_EXTENDED_MAGAZINE, transformType, matrices);
 
@@ -104,14 +102,14 @@ public class uzi_animation implements IOverrideModel {
                     RenderUtil.renderModel(SpecialModels.UZI_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
                 }
             }
-            matrices.pop();
+            matrices.popPose();
 
-            matrices.push();
+            matrices.pushPose();
             {
                 controller.applySpecialModelTransform(SpecialModels.UZI.getModel(), UZIAnimationController.INDEX_BULLET2, transformType, matrices);
                 RenderUtil.renderModel(SpecialModels.UZI_BULLET.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
-            matrices.pop();
+            matrices.popPose();
         }
 
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
