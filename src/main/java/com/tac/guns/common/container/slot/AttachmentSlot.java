@@ -81,7 +81,8 @@ public class AttachmentSlot extends Slot
     @Override
     public boolean mayPlace(ItemStack stack)
     {
-        if((this.type == IAttachment.Type.EXTENDED_MAG && this.weapon.getOrCreateTag().getInt("AmmoCount") > ((TimelessGunItem)this.weapon.getItem()).getGun().getReloads().getMaxAmmo()) || ReloadHandler.get().isReloading()) {
+        if((this.type == IAttachment.Type.EXTENDED_MAG && this.weapon.getOrCreateTag().getInt("AmmoCount") > ((TimelessGunItem)this.weapon.getItem()).getGun().getReloads().getMaxAmmo()) || SyncedEntityData.instance().get(player,
+                ModSyncedDataKeys.RELOADING)) {
             return false;
         }
         if(this.player.getMainHandItem().getItem() instanceof ScopeItem || this.player.getMainHandItem().getItem() instanceof SideRailItem || this.player.getMainHandItem().getItem() instanceof IrDeviceItem)

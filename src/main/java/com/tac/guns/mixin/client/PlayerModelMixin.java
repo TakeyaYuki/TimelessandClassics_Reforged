@@ -58,7 +58,7 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel<T>
 
         PlayerModel model = (PlayerModel) (Object) this;
         this.resetRotationAngles();
-        this.resetVisibilities();
+        // this.resetVisibilities();
         if(MinecraftForge.EVENT_BUS.post(new PlayerModelEvent.SetupAngles.Pre((Player) entityIn, model, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, Minecraft.getInstance().getDeltaFrameTime())))
         {
             this.setupRotationAngles();
@@ -149,14 +149,14 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel<T>
         part.y = 0.0F;
         part.z = 0.0F;
     }
-
-    private void resetVisibilities()
-    {
-        this.head.visible = true;
-        this.body.visible = true;
-        this.rightArm.visible = true;
-        this.leftArm.visible = true;
-        this.rightLeg.visible = true;
-        this.leftLeg.visible = true;
-    }
+    // Why you need to reset Visibilities?
+    //    private void resetVisibilities()
+    //    {
+    //        this.head.visible = true;
+    //        this.body.visible = true;
+    //        this.rightArm.visible = true;
+    //        this.leftArm.visible = true;
+    //        this.rightLeg.visible = true;
+    //        this.leftLeg.visible = true;
+    //    }
 }
