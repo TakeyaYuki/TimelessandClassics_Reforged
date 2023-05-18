@@ -13,6 +13,7 @@ import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
 import com.tac.guns.client.event.PlayerModelEvent;
 import com.tac.guns.client.event.RenderItemEvent;
+import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.handler.command.GunEditor;
 import com.tac.guns.client.render.IHeldAnimation;
 import com.tac.guns.client.render.animation.module.GunAnimationController;
@@ -36,7 +37,6 @@ import com.tac.guns.item.attachment.impl.Barrel;
 import com.tac.guns.item.attachment.impl.Scope;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessagePlayerShake;
-import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.IDLNBTUtil;
 import com.tac.guns.util.OptifineHelper;
 import com.tac.guns.util.math.OneDimensionalPerlinNoise;
@@ -78,6 +78,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.network.NetworkDirection;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -113,11 +114,11 @@ public class GunRenderingHandler {
 
     public static final ResourceLocation MUZZLE_FLASH_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/effect/muzzle_flash.png");
     public static final ResourceLocation MUZZLE_SMOKE_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/effect/muzzle_smoke.png");
-
-    private final Random random = new Random();
-    private final Set<Integer> entityIdForMuzzleFlash = new HashSet<>();
-    private final Set<Integer> entityIdForDrawnMuzzleFlash = new HashSet<>();
-    private final Map<Integer, Float> entityIdToRandomValue = new HashMap<>();
+    private Random random = new Random();
+    private Set<Integer> entityIdForMuzzleFlash = new HashSet<>();
+    private Set<Integer> entityIdForDrawnMuzzleFlash = new HashSet<>();
+    private Queue<ShellInAir> shells = new ArrayDeque<>();
+    private Map<Integer, Float> entityIdToRandomValue = new HashMap<>();
 
     public int sprintTransition;
     private int prevSprintTransition;
@@ -151,6 +152,7 @@ public class GunRenderingHandler {
             return;
         this.updateSprinting();
         this.updateMuzzleFlash();
+        this.updateShellCasing();
         this.updateOffhandTranslate();
         if(Minecraft.getInstance().player == null)
             return;
@@ -260,6 +262,22 @@ public class GunRenderingHandler {
         this.entityIdForDrawnMuzzleFlash.addAll(this.entityIdForMuzzleFlash);
     }
 
+    private void updateShellCasing(){
+        while (shells.peek()!= null && shells.peek().livingTick <= 0) shells.poll();
+        for(ShellInAir shell : shells){
+            shell.livingTick--;
+            shell.velocity.add(new Vector3f(-0.02f * shell.velocity.x(), -0.25f, -0.02f * shell.velocity.y())); //simulating gravity
+            shell.preDisplacement.setX(shell.displacement.x());
+            shell.preDisplacement.setY(shell.displacement.y());
+            shell.preDisplacement.setZ(shell.displacement.z());
+            shell.preRotation.setX(shell.rotation.x());
+            shell.preRotation.setY(shell.rotation.y());
+            shell.preRotation.setZ(shell.rotation.z());
+            shell.displacement.add(shell.velocity);
+            shell.rotation.add(shell.angularVelocity);
+        }
+    }
+
     private void updateOffhandTranslate() {
         this.prevOffhandTranslate = this.offhandTranslate;
         Minecraft mc = Minecraft.getInstance();
@@ -296,6 +314,16 @@ public class GunRenderingHandler {
         Gun modifiedGun = gunItem.getModifiedGun(heldItem);
         if (modifiedGun.getDisplay().getFlash() != null) {
             this.showMuzzleFlashForPlayer(Minecraft.getInstance().player.getId());
+        }
+        Gun.ShellCasing shellCasing = modifiedGun.getDisplay().getShellCasing();
+        if (shellCasing != null) {
+            float card = 1f - random.nextFloat() * 2f;
+            float vard = 1.2f - random.nextFloat() * 0.4f;
+            shells.add(new ShellInAir(
+                    new Vector3f((float) shellCasing.getXOffset(), (float) shellCasing.getYOffset(), (float) shellCasing.getZOffset()),
+                    new Vector3f(shellCasing.getVelocityX() + shellCasing.getRVelocityX()*card, shellCasing.getVelocityY() + shellCasing.getRVelocityY()*card, shellCasing.getVelocityZ() + shellCasing.getRVelocityZ()*card),
+                    new Vector3f(vard*shellCasing.getAVelocityX(), vard*shellCasing.getAVelocityY(), vard*shellCasing.getAVelocityZ())
+            ));
         }
     }
 
@@ -1192,7 +1220,7 @@ public class GunRenderingHandler {
             this.renderGun(entity, transformType, model.isEmpty() ? stack : model, matrixStack, renderTypeBuffer, light, partialTicks);
             this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, light, partialTicks);
             this.renderMuzzleFlash(entity, matrixStack, renderTypeBuffer, stack, transformType);
-
+            this.renderShellCasing(entity, matrixStack, renderTypeBuffer, stack, transformType, renderTypeBuffer, light, partialTicks);
             matrixStack.popPose();
             return true;
         }
@@ -1316,6 +1344,47 @@ public class GunRenderingHandler {
             if (this.entityIdForMuzzleFlash.contains(entity.getId()) ) {
                 float randomValue = this.entityIdToRandomValue.get(entity.getId());
                 this.drawMuzzleFlash(weapon, modifiedGun, randomValue, randomValue >= 0.5F, matrixStack, buffer);
+            }
+        }
+    }
+
+    private void renderShellCasing(LivingEntity entity, PoseStack matrixStack, MultiBufferSource buffer, ItemStack weapon, ItemTransforms.TransformType transformType, MultiBufferSource renderTypeBuffer, int light, float partialTicks) {
+        Gun modifiedGun = ((GunItem) weapon.getItem()).getModifiedGun(weapon);
+        if (modifiedGun.getDisplay().getShellCasing() == null) {
+            return;
+        }
+
+        if (transformType == ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND || transformType == ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND) {
+            for(ShellInAir shell : shells){
+                matrixStack.pushPose();
+
+                Vector3f pos = shell.origin.copy();
+                Vector3f dis1 = shell.preDisplacement.copy();
+                Vector3f dis2 = shell.displacement.copy();
+                dis1.mul(1 - partialTicks);
+                dis2.mul(partialTicks);
+                pos.add(dis1);
+                pos.add(dis2);
+
+                Vector3f rot = new Vector3f(0f, 0f, 0f);
+                Vector3f rot1 = shell.preRotation.copy();
+                Vector3f rot2 = shell.rotation.copy();
+                rot1.mul(1 - partialTicks);
+                rot2.mul(partialTicks);
+                rot.add(rot1);
+                rot.add(rot2);
+
+                float displayXv = pos.x() * 0.0625f;
+                float displayYv = pos.y() * 0.0625f;
+                float displayZv = pos.z() * 0.0625f;
+
+                matrixStack.translate(displayXv, displayYv, displayZv);
+                matrixStack.mulPose(Vector3f.XP.rotationDegrees(rot.x()));
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees(rot.y()));
+                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(rot.z()));
+                RenderUtil.renderModel(SpecialModels.BULLET_SHELL.getModel(), weapon, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY);
+
+                matrixStack.popPose();
             }
         }
     }
@@ -1475,5 +1544,22 @@ public class GunRenderingHandler {
             e.printStackTrace();
         }
         return 0.0F;
+    }
+
+    public static class ShellInAir{
+        public int livingTick = 40;
+        public Vector3f preDisplacement = new Vector3f(0f, 0f, 0f);
+        public Vector3f displacement = new Vector3f(0f, 0f, 0f);
+        public Vector3f preRotation = new Vector3f(0f, 0f, 0f);
+        public Vector3f rotation = new Vector3f(0f, 0f, 0f);
+        public Vector3f origin;
+        public Vector3f velocity;
+        public Vector3f angularVelocity;
+
+        public ShellInAir(@Nonnull Vector3f origin, @Nonnull Vector3f velocity, @Nonnull Vector3f angularVelocity){
+            this.origin = origin.copy();
+            this.velocity = velocity.copy();
+            this.angularVelocity = angularVelocity.copy();
+        }
     }
 }
