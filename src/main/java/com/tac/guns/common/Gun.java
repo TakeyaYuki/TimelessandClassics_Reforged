@@ -2065,17 +2065,17 @@ public final class Gun implements INBTSerializable<CompoundTag>
             {
                 this.aVelocityZ = tag.getFloat("AVelocityZ");
             }
-            if(tag.contains("CasingModel", Constants.NBT.TAG_STRING))
+            if(tag.contains("CasingModel", Tag.TAG_STRING))
             {
                 this.casingModel = this.createResource(tag, "CasingModel");
             }
-            if(tag.contains("TickLife", Constants.NBT.TAG_ANY_NUMERIC))
+            if(tag.contains("TickLife", Tag.TAG_ANY_NUMERIC))
             {
                 this.tickLife = tag.getInt("TickLife");
             }
         }
         @Nullable
-        private ResourceLocation createResource(CompoundNBT tag, String key)
+        private ResourceLocation createResource(CompoundTag tag, String key)
         {
             String resource = tag.getString(key);
             return resource.isEmpty() ? null : new ResourceLocation(resource);
