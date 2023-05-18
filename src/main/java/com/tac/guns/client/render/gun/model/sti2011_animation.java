@@ -116,12 +116,14 @@ public class sti2011_animation implements IOverrideModel {
             matrices.popPose();
         }
 
-        matrices.pushPose();
-        {
-            controller.applySpecialModelTransform(SpecialModels.STI2011_BODY.getModel(), STI2011AnimationController.INDEX_BULLET1, transformType, matrices);
-            RenderUtil.renderModel(SpecialModels.STI2011_BULLET1.getModel(), stack, matrices, renderBuffer, light, overlay);
+        if(!controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.INSPECT_EMPTY).equals(controller.getPreviousAnimation())) {
+            matrices.pushPose();
+            {
+                controller.applySpecialModelTransform(SpecialModels.STI2011_BODY.getModel(), STI2011AnimationController.INDEX_BULLET1, transformType, matrices);
+                RenderUtil.renderModel(SpecialModels.STI2011_BULLET1.getModel(), stack, matrices, renderBuffer, light, overlay);
+            }
+            matrices.popPose();
         }
-        matrices.popPose();
 
         if(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_NORMAL).equals(controller.getPreviousAnimation()) ) {
             matrices.pushPose();
