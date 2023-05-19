@@ -104,8 +104,8 @@ public class timeless_50_animation implements IOverrideModel {
         {
             matrices.translate(0,yAdjust,0);
             controller.applySpecialModelTransform(SpecialModels.TIMELESS_50.getModel(), Timeless50AnimationController.INDEX_MAG, transformType, matrices);
-            //if(controller.isAnimationRunning(GunAnimationController.AnimationLabel.RELOAD_EMPTY) || controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY).equals(controller.getPreviousAnimation()))
-                //matrices.translate(0.0, -0.005, 0.05); //-0.02, 0.05);
+            if(controller.isAnimationRunning(GunAnimationController.AnimationLabel.RELOAD_EMPTY) || controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY).equals(controller.getPreviousAnimation()))
+                matrices.translate(-0.00175, -0.005, 0.05); //-0.02, 0.05);
             if(GunModifierHelper.getAmmoCapacity(stack) > -1)
             {
                 RenderUtil.renderModel(SpecialModels.TIMELESS_50_E_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
