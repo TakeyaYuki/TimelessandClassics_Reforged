@@ -1,5 +1,7 @@
 package com.tac.guns.client;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -14,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -51,7 +54,7 @@ public final class InputHandler
 			UNLOAD = new KeyBind( "key.tac.unload", InputConstants.UNKNOWN.getValue() ),
 			ATTACHMENTS = new KeyBind( "key.tac.attachments", GLFW.GLFW_KEY_Z ),
 
-	FIRE_SELECT = new KeyBind( "key.tac.fireSelect", GLFW.GLFW_KEY_G ),
+			FIRE_SELECT = new KeyBind( "key.tac.fireSelect", GLFW.GLFW_KEY_G ),
 			INSPECT = new KeyBind( "key.tac.inspect", GLFW.GLFW_KEY_H ),
 			SIGHT_SWITCH = new KeyBind( "key.tac.sight_switch", GLFW.GLFW_KEY_V ),
 			//ACTIVATE_SIDE_RAIL = new KeyBind( "key.tac.activateSideRail", GLFW.GLFW_KEY_B ),
@@ -62,8 +65,7 @@ public final class InputHandler
 	 */
 	public static final KeyBind
 			CO = new KeyBind( "key.tac.co", GLFW.GLFW_KEY_LEFT_ALT ),
-
-	CO_UNLOAD = new KeyBind( "key.tac.co_unload", GLFW.GLFW_KEY_R ),
+			CO_UNLOAD = new KeyBind( "key.tac.co_unload", GLFW.GLFW_KEY_R ),
 			CO_INSPECT = new KeyBind( "key.tac.co_inspect", -1 );
 
 	/**
@@ -78,7 +80,7 @@ public final class InputHandler
 			ALTYR = new KeyBind( "key.tac.aar", GLFW.GLFW_KEY_RIGHT_ALT ),
 			SIZE_OPT = new KeyBind( "key.tac.sizer", GLFW.GLFW_KEY_PERIOD ),
 
-	P = new KeyBind( "key.tac.p", GLFW.GLFW_KEY_P ),
+			P = new KeyBind( "key.tac.p", GLFW.GLFW_KEY_P ),
 			L = new KeyBind( "key.tac.l", GLFW.GLFW_KEY_L ),
 			O = new KeyBind( "key.tac.o", GLFW.GLFW_KEY_O ),
 			K = new KeyBind( "key.tac.k", GLFW.GLFW_KEY_K ),
@@ -87,16 +89,20 @@ public final class InputHandler
 			J = new KeyBind( "key.tac.j", GLFW.GLFW_KEY_J ),
 			N = new KeyBind( "key.tac.n", GLFW.GLFW_KEY_N ),
 
-	UP = new KeyBind( "key.tac.bbb", GLFW.GLFW_KEY_UP ),
+			UP = new KeyBind( "key.tac.bbb", GLFW.GLFW_KEY_UP ),
 			RIGHT = new KeyBind( "key.tac.vvv", GLFW.GLFW_KEY_RIGHT ),
 			LEFT = new KeyBind( "key.tac.ccc", GLFW.GLFW_KEY_LEFT ),
 			DOWN = new KeyBind( "key.tac.zzz", GLFW.GLFW_KEY_DOWN );
 
-	private static final ArrayList< KeyBind > UNIVERSAL_KEYS = new ArrayList<>();
+	private static final ArrayList< KeyBind >
+			GLOBAL_KEYS = new ArrayList<>(),
+			INCO_KEYS = new ArrayList<>(),
+			CO_KEYS = new ArrayList<>();
 
-	private static final ArrayList< KeyBind > NORMAL_KEYS = new ArrayList<>();
-
-	private static final ArrayList< KeyBind > CO_KEYS = new ArrayList<>();
+	private static final HashMultimap< Key, KeyBind >
+			GLOBAL_MAPPER = HashMultimap.create(),
+			INCO_MAPPER = HashMultimap.create(),
+			CO_MAPPER = HashMultimap.create();
 
 	/**
 	 * Is used to save and read key bindings
@@ -106,17 +112,18 @@ public final class InputHandler
 	public static void initKeys()
 	{
 		regisAll(
-				UNIVERSAL_KEYS,
+				GLOBAL_KEYS,
 
 				PULL_TRIGGER,
 
 				AIM_HOLD,
 				AIM_TOGGLE,
-				CO
+				CO,
+				ARMOR_REPAIRING
 		);
 
 		regisAll(
-				NORMAL_KEYS,
+				INCO_KEYS,
 
 				RELOAD,
 				UNLOAD,
@@ -124,8 +131,6 @@ public final class InputHandler
 				FIRE_SELECT,
 				INSPECT,
 				SIGHT_SWITCH,
-				//ACTIVATE_SIDE_RAIL,
-				ARMOR_REPAIRING,
 				MORE_INFO_HOLD
 		);
 
@@ -137,10 +142,10 @@ public final class InputHandler
 		);
 
 		// Only register dev keys for dev mode
-		if( Config.COMMON.development.enableTDev.get() )
+		if ( Config.COMMON.development.enableTDev.get() )
 		{
 			regisAll(
-					UNIVERSAL_KEYS,
+					GLOBAL_KEYS,
 
 					SHIFTY,
 					CONTROLLY,
@@ -160,26 +165,31 @@ public final class InputHandler
 	 * Original TAC implementation seems to try to prevent gun from destroying block and bobbing on
 	 * use by canceling the {@link RawMouseEvent} event. Hence to receive the update, we need a
 	 * higher priority to receive event ahead. But I have to say this kind of implementation is a
-	 * behavior of item on mouse input.
+	 * bit of ugly. There are actually methods on {@link} that can be override to control the
+	 * behavior of item on mouse Key.
 	 *
 	 * TODO: maybe refactor this part
 	 */
 	@SubscribeEvent( priority = EventPriority.HIGH )
 	public static void onMouseInput( InputEvent.RawMouseEvent evt )
 	{
-		UNIVERSAL_KEYS.forEach( KeyBind::update );
-		( CO.down ? CO_KEYS : NORMAL_KEYS ).forEach( KeyBind::update );
-		( CO.down ? NORMAL_KEYS : CO_KEYS ).forEach( KeyBind::reset );
+		final Key button = InputConstants.Type.MOUSE.getOrCreate( evt.getButton() );
+		final boolean down = evt.getAction() == GLFW.GLFW_PRESS;
+		GLOBAL_MAPPER.get( button ).forEach( kb -> kb.update( down ) );
+		( CO.down ? CO_MAPPER : INCO_MAPPER ).get( button ).forEach( kb -> kb.update( down ) );
+		( CO.down ? INCO_MAPPER : CO_MAPPER ).get( button )
+				.forEach( kb -> kb.inactiveUpdate( down ) );
 	}
 
 	@SubscribeEvent( priority = EventPriority.HIGH )
 	public static void onKeyInput( InputEvent.KeyInputEvent evt )
 	{
-		//TODO: Kill the keyboard input pass if a GUI, or text box is open
-		//if(Minecraft.getInstance().is)
-		UNIVERSAL_KEYS.forEach( KeyBind::update );
-		( CO.down ? CO_KEYS : NORMAL_KEYS ).forEach( KeyBind::update );
-		( CO.down ? NORMAL_KEYS : CO_KEYS ).forEach( KeyBind::reset );
+		final Key key = InputConstants.Type.KEYSYM.getOrCreate( evt.getKey() );
+		final boolean down = evt.getAction() != GLFW.GLFW_RELEASE;
+		GLOBAL_MAPPER.get( key ).forEach( kb -> kb.update( down ) );
+		( CO.down ? CO_MAPPER : INCO_MAPPER ).get( key ).forEach( kb -> kb.update( down ) );
+		( CO.down ? INCO_MAPPER : CO_MAPPER ).get( key )
+				.forEach( kb -> kb.inactiveUpdate( down ) );
 	}
 
 	private static KeyBind oriAimKey;
@@ -192,23 +202,26 @@ public final class InputHandler
 	static void clearKeyBinds( File file )
 	{
 		boolean flag = false;
-		for( KeyBind key : KeyBind.REGISTRY.values())
+		for ( KeyBind key : KeyBind.REGISTRY.values() ) {
 			flag |= key.clearKeyBind();
+		}
 
 		// Make sure only one aim key is bounden
 		final Key none = InputConstants.UNKNOWN;
-		if( AIM_HOLD.keyCode() != none && AIM_TOGGLE.keyCode() != none )
+		if ( AIM_HOLD.keyCode() != none && AIM_TOGGLE.keyCode() != none )
 		{
-			oriAimKey.$keyCode( none );
+			oriAimKey.setKeyCode( none );
 			flag = true;
 		}
 
 		// Do not forget to update key bind hash
 		KeyMapping.resetMapping();
-
 		// If any key bind has changed, save it to the file
-		if( flag )
+		if ( flag )
+		{
+			updateMappers();
 			saveTo( file );
+		}
 	}
 
 	/**
@@ -216,14 +229,13 @@ public final class InputHandler
 	 */
 	static void saveTo( File file )
 	{
-		final HashMap< String, String > mapper = new HashMap<>();
-		try( FileWriter out = new FileWriter( file ) )
+		try ( FileWriter out = new FileWriter( file ) )
 		{
-			KeyBind.REGISTRY.values()
-					.forEach( kb -> mapper.put( kb.name(), kb.keyCode().toString() ) );
+			final HashMap< String, String > mapper = new HashMap<>();
+			KeyBind.REGISTRY.values().forEach( kb -> mapper.put( kb.name(), "" + kb.keyCode() ) );
 			out.write( GSON.toJson( mapper ) );
 		}
-		catch( IOException e ) { GunMod.LOGGER.error( "Fail write key bindings", e ); }
+		catch ( IOException e ) { GunMod.LOGGER.error( "Fail write key bindings", e ); }
 	}
 
 	/**
@@ -231,24 +243,45 @@ public final class InputHandler
 	 */
 	static void readFrom( File file )
 	{
-		try( FileReader in = new FileReader( file ) )
+		try ( FileReader in = new FileReader( file ) )
 		{
 			final JsonObject obj = GSON.fromJson( in, JsonObject.class );
 			obj.entrySet().forEach( e -> {
 				try
 				{
-					KeyBind.REGISTRY.get( e.getKey() )
-							.$keyCode( InputConstants.getKey( e.getValue().getAsString() ) );
+					final KeyBind keyBind = KeyBind.REGISTRY.get( e.getKey() );
+					final Key Key = InputConstants.getKey( e.getValue().getAsString() );
+					keyBind.setKeyCode( Key );
 				}
-				catch( NullPointerException ee ) {
+				catch ( NullPointerException ee ) {
 					GunMod.LOGGER.error( "Key bind " + e.getKey() + " do not exist" );
 				}
-				catch( IllegalArgumentException ee ) {
+				catch ( IllegalArgumentException ee ) {
 					GunMod.LOGGER.error( "Bad key code: " + e );
 				}
 			} );
 		}
-		catch( IOException e ) { GunMod.LOGGER.error( "Fail read key bind", e ); }
+		catch ( IOException e ) { GunMod.LOGGER.error( "Fail read key bind", e ); }
+
+		updateMappers();
+	}
+
+	public static void updateMappers()
+	{
+		updateMapper( GLOBAL_KEYS, GLOBAL_MAPPER );
+		updateMapper( CO_KEYS, CO_MAPPER );
+		updateMapper( INCO_KEYS, INCO_MAPPER );
+	}
+
+	private static void updateMapper(
+			Collection< KeyBind > group,
+			Multimap< Key, KeyBind > mapper
+	) {
+		mapper.clear();
+		group.forEach( kb -> {
+			final Key code = kb.keyCode();
+			if ( code != InputConstants.UNKNOWN ) { mapper.put( code, kb ); }
+		} );
 	}
 
 	private static void regisAll( Collection< KeyBind > updateGroup, KeyBind... keys )
