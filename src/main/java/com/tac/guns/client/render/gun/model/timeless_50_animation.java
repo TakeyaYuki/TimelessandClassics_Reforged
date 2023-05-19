@@ -120,7 +120,7 @@ public class timeless_50_animation implements IOverrideModel {
         }
         matrices.popPose();
 
-        if(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_NORMAL).equals(controller.getPreviousAnimation())) {
+        if(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_NORMAL).equals(controller.getPreviousAnimation()) && transformType.firstPerson()) {
             matrices.pushPose();
             {
                 matrices.translate(0,yAdjust,0);
