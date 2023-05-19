@@ -51,7 +51,13 @@ public class timeless_50_animation implements IOverrideModel {
                 RenderUtil.renderModel(SpecialModels.TIMELESS_50_CLUMSYYY.getModel(), stack, matrices, renderBuffer, 15728880, overlay);
             }
             else if (Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.SILENCER.get()) {
+                RenderUtil.renderModel(SpecialModels.TIMELESS_50_S_BARREL.getModel(), stack, matrices, renderBuffer, light, overlay);
+                RenderUtil.renderModel(SpecialModels.TIMELESS_50_NEKOOO.getModel(), stack, matrices, renderBuffer, 15728880, overlay);
+                matrices.pushPose();
+                matrices.translate(0, 0, -0.3125);
                 RenderUtil.renderModel(SpecialModels.TIMELESS_50_SUPPRESSOR.getModel(), stack, matrices, renderBuffer, light, overlay);
+                matrices.translate(0, 0, 0.3125);
+                matrices.pushPose();
             }
             else {
                 RenderUtil.renderModel(SpecialModels.TIMELESS_50_S_BARREL.getModel(), stack, matrices, renderBuffer, light, overlay);
@@ -105,7 +111,7 @@ public class timeless_50_animation implements IOverrideModel {
             matrices.translate(0,yAdjust,0);
             controller.applySpecialModelTransform(SpecialModels.TIMELESS_50.getModel(), Timeless50AnimationController.INDEX_MAG, transformType, matrices);
             if(controller.isAnimationRunning(GunAnimationController.AnimationLabel.RELOAD_EMPTY) || controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY).equals(controller.getPreviousAnimation()))
-                matrices.translate(-0.00175, -0.005, 0.05); //-0.02, 0.05);
+                matrices.translate(-0.00175, 0, 0);
             if(GunModifierHelper.getAmmoCapacity(stack) > -1)
             {
                 RenderUtil.renderModel(SpecialModels.TIMELESS_50_E_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
@@ -138,6 +144,8 @@ public class timeless_50_animation implements IOverrideModel {
             {
                 matrices.translate(0, yAdjust, 0);
                 controller.applySpecialModelTransform(SpecialModels.TIMELESS_50.getModel(), Timeless50AnimationController.INDEX_BULLET1, transformType, matrices);
+                if(controller.isAnimationRunning(GunAnimationController.AnimationLabel.RELOAD_EMPTY) || controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_EMPTY).equals(controller.getPreviousAnimation()))
+                    matrices.translate(-0.00175, 0, 0);
                 RenderUtil.renderModel(SpecialModels.TIMELESS_50_BULLET1.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
             matrices.popPose();
