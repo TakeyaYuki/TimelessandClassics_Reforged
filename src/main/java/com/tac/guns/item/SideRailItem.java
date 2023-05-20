@@ -44,6 +44,11 @@ public class SideRailItem extends Item implements ISideRail, IColored
     }
 
     @Override
+    public boolean isFoil(ItemStack p_41453_) {
+        return false;
+    }
+
+    @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
         return enchantment == Enchantments.BINDING_CURSE || super.canApplyAtEnchantingTable(stack, enchantment);
