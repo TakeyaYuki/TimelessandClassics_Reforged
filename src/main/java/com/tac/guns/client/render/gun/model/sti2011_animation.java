@@ -72,6 +72,7 @@ public class sti2011_animation implements IOverrideModel {
                 } else if (!Gun.hasAmmo(stack)) {
                     {
                         matrices.translate(0, 0, 0.235f * (-4.5 * Math.pow(0.5 - 0.5, 2) + 1.0));
+                        GunRenderingHandler.get().opticMovement = 0.235f * (-4.5 * Math.pow(0.5 - 0.5, 2) + 1.0);
                     }
                 }
                 matrices.translate(0, 0, 0.025F);
