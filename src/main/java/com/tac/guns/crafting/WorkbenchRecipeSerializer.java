@@ -57,7 +57,7 @@ public class WorkbenchRecipeSerializer extends net.minecraftforge.registries.For
         int size = buffer.readVarInt();
         for(int i = 0; i < size; i++) {
             Ingredient ingredient = Ingredient.fromNetwork(buffer);
-            int count = buffer.readByte();
+            int count = buffer.readVarInt();// readByte();
             builder.add(new Pair<>(ingredient, count));
         }
         return new WorkbenchRecipe(recipeId, result, builder.build(), group);

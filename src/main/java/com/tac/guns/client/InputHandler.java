@@ -11,15 +11,30 @@ import com.mojang.blaze3d.platform.InputConstants.Type;
 import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
+import com.tac.guns.client.screen.TaCSettingsScreen;
+import com.tac.guns.client.settings.GunOptions;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Option;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.OptionsList;
+import net.minecraft.client.gui.screens.MouseSettingsScreen;
+import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.screens.controls.ControlsScreen;
+import net.minecraft.client.gui.screens.controls.KeyBindsScreen;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.settings.KeyBindingMap;
 import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -181,6 +196,28 @@ public final class InputHandler
 				.forEach( kb -> kb.inactiveUpdate( down ) );
 	}
 
+	/*@SubscribeEvent
+	public static void onScreenInit(ScreenEvent.InitScreenEvent.Post event)
+	{
+		if(event.getScreen() instanceof ControlsScreen)
+		{
+			PauseScreen screen = (PauseScreen) event.getScreen();;
+
+			event.addListener((new Button(screen.width / 2 - 215, 10, 75, 20, new TranslatableComponent("tac.options.gui_settings"), (p_213126_1_) -> {
+				Minecraft.getInstance().setScreen(new TaCSettingsScreen(screen, Minecraft.getInstance().options));
+			})));
+		}
+	}*/
+
+	@SubscribeEvent()
+	public static void onScreenTick(TickEvent.ClientTickEvent tickEvent)
+	{
+		if(Minecraft.getInstance().screen instanceof KeyBindsScreen) {
+			//updateMappers();
+			saveTo( ClientHandler.keyBindsFile );
+		}
+	}
+
 	@SubscribeEvent( priority = EventPriority.HIGH )
 	public static void onKeyInput( InputEvent.KeyInputEvent evt )
 	{
@@ -199,11 +236,11 @@ public final class InputHandler
 		KeyBind.REGISTRY.values().forEach( KeyBind::restoreKeyBind );
 	}
 
+	// We shouldn't care it changed or not, saves a few bytes during screen swaps?
 	static void clearKeyBinds( File file )
 	{
-		boolean flag = false;
 		for ( KeyBind key : KeyBind.REGISTRY.values() ) {
-			flag |= key.clearKeyBind();
+			key.clearKeyBind();
 		}
 
 		// Make sure only one aim key is bounden
@@ -211,17 +248,9 @@ public final class InputHandler
 		if ( AIM_HOLD.keyCode() != none && AIM_TOGGLE.keyCode() != none )
 		{
 			oriAimKey.setKeyCode( none );
-			flag = true;
 		}
-
-		// Do not forget to update key bind hash
-		KeyMapping.resetMapping();
-		// If any key bind has changed, save it to the file
-		if ( flag )
-		{
-			updateMappers();
-			saveTo( file );
-		}
+		updateMappers();
+		saveTo( file );
 	}
 
 	/**

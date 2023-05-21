@@ -38,6 +38,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.*;
 import net.minecraft.client.gui.screens.controls.ControlsScreen;
+import net.minecraft.client.gui.screens.controls.KeyBindsScreen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -60,6 +61,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.security.Key;
 import java.util.Map;
 
 /**
@@ -70,7 +72,7 @@ public class ClientHandler
 {
     private static Field mouseOptionsField;
 
-    private static File keyBindsFile;
+    public static File keyBindsFile;
     
     public static void setup( Minecraft mc ) {
         MinecraftForge.EVENT_BUS.register(AimingHandler.get());
@@ -253,9 +255,9 @@ public class ClientHandler
         final Screen gui = evt.getScreen();
 
         // Show key binds if control GUI is activated
-        if( gui instanceof ControlsScreen )
+        if( gui instanceof KeyBindsScreen)
             InputHandler.restoreKeyBinds();
-        else if( prevScreen instanceof ControlsScreen )
+        else if( prevScreen instanceof KeyBindsScreen )
             InputHandler.clearKeyBinds( keyBindsFile );
 
         prevScreen = gui;
