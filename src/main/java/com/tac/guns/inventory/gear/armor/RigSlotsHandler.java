@@ -1,32 +1,26 @@
 package com.tac.guns.inventory.gear.armor;
 
+import com.tac.guns.GunMod;
+import com.tac.guns.item.TransitionalTypes.wearables.CurioCapabilityProvider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
 
 public class RigSlotsHandler implements IAmmoItemHandler, IItemHandlerModifiable, INBTSerializable<CompoundTag> {
     protected NonNullList<ItemStack> stacks;
-
-    public RigSlotsHandler()
-    {
-        this(18);
-    }
-
     public RigSlotsHandler(int size) {
         stacks = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
-    public RigSlotsHandler(NonNullList<ItemStack> stacks)
-    {
-        this.stacks = stacks;
-    }
 
     public void setSize(int size)
     {
@@ -168,6 +162,7 @@ public class RigSlotsHandler implements IAmmoItemHandler, IItemHandlerModifiable
             {
                 CompoundTag itemTag = new CompoundTag();
                 itemTag.putInt("Slot", i);
+                GunMod.LOGGER.error("Added item for slot: " + i);
                 stacks.get(i).save(itemTag);
                 nbtTagList.add(itemTag);
             }
@@ -191,6 +186,7 @@ public class RigSlotsHandler implements IAmmoItemHandler, IItemHandlerModifiable
             if (slot >= 0 && slot < stacks.size())
             {
                 stacks.set(slot, ItemStack.of(itemTags));
+                GunMod.LOGGER.error("Created new item for slot: " + slot);
             }
         }
         onLoad();

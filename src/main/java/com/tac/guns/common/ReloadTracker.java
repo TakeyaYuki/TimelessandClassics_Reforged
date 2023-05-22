@@ -4,9 +4,10 @@ import com.mrcrayfish.framework.common.data.SyncedEntityData;
 import com.tac.guns.Reference;
 import com.tac.guns.common.network.ServerPlayHandler;
 import com.tac.guns.init.ModSyncedDataKeys;
-import com.tac.guns.inventory.gear.armor.ArmorRigCapabilityProvider;
 import com.tac.guns.inventory.gear.armor.RigSlotsHandler;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.item.TransitionalTypes.wearables.ArmorRigItem;
+import com.tac.guns.item.TransitionalTypes.wearables.CurioCapabilityProvider;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageGunSound;
 import com.tac.guns.network.message.MessageRigInvToClient;
@@ -14,12 +15,14 @@ import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.WearableHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,7 +33,8 @@ import net.minecraftforge.network.PacketDistributor;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.WeakHashMap;
-import com.tac.guns.util.GunModifierHelper;
+
+import top.theillusivec4.curios.api.CuriosCapability;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -158,10 +162,10 @@ public class ReloadTracker
 
         ItemStack rig = WearableHelper.PlayerWornRig(player);
         if(rig != null) {
-            RigSlotsHandler itemHandler = (RigSlotsHandler) rig.getCapability(ArmorRigCapabilityProvider.capability).resolve().get();
-            for (ItemStack x : itemHandler.getStacks()) {
-                if(Gun.isAmmo(x, this.gun.getProjectile().getItem()))
-                    stacks.add(x);
+            for (Tag x : stack.getOrCreateTag().getList("Items", Tag.TAG_COMPOUND)) {
+                ItemStack stack = new ItemStack((ItemLike) x);
+                if(Gun.isAmmo(stack, this.gun.getProjectile().getItem()))
+                    stacks.add(stack);
             }
             for (ItemStack x: stacks)
             {
@@ -193,7 +197,7 @@ public class ReloadTracker
     {
         /*ItemStack rig = WearableHelper.PlayerWornRig(player);
         if(rig != null) {
-            RigSlotsHandler itemHandler = (RigSlotsHandler) rig.getCapability(ArmorRigCapabilityProvider.capability).resolve().get();
+            RigSlotsHandler itemHandler = (RigSlotsHandler) rig.getCapability(CuriosCapability.ITEM).resolve().get();
             for (ItemStack x : itemHandler.getStacks()) {
                 if(Gun.isAmmo(x, this.gun.getProjectile().getItem()))
                     ammoStacks.add(x);

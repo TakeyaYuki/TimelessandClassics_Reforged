@@ -1,7 +1,6 @@
 package com.tac.guns.inventory.gear;
 
 import com.tac.guns.Reference;
-import com.tac.guns.inventory.gear.armor.ArmorRigInventoryCapability;
 import com.tac.guns.inventory.gear.armor.IAmmoItemHandler;
 import com.tac.guns.item.TransitionalTypes.wearables.IArmoredRigItem;
 import net.minecraft.resources.ResourceLocation;
@@ -45,12 +44,12 @@ public class InventoryListener {
         event.addListener(wearableCapability. getOptionalStorage()::invalidate);
     }*/
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onAttachCapabilitiesStack(AttachCapabilitiesEvent<ItemStack> event) throws InvocationTargetException, IllegalAccessException {
         if(!(event.getObject().getItem() instanceof IArmoredRigItem)) return;
 
         ArmorRigInventoryCapability armorRigInventoryCapability = new ArmorRigInventoryCapability();
         event.addCapability(new ResourceLocation("tac", "rig"), armorRigInventoryCapability);
         event.addListener(armorRigInventoryCapability.getOptionalStorage()::invalidate);
-    }
+    }*/
 }

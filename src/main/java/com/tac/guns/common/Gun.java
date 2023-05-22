@@ -2559,7 +2559,7 @@ public final class Gun implements INBTSerializable<CompoundTag>
             if(x != null && x != ItemStack.EMPTY && x.getCount() != 0 && isAmmo(x, id))
                 counter+=x.getCount();
         }
-        /*RigSlotsHandler itemHandler = (RigSlotsHandler) rig.getCapability(ArmorRigCapabilityProvider.capability).resolve().get();
+        /*RigSlotsHandler itemHandler = (RigSlotsHandler) rig.getCapability(CuriosCapability.ITEM).resolve().get();
         for (ItemStack x : itemHandler.getStacks()) {
             if(Gun.isAmmo(x, id))
                 counter+=x);

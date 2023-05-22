@@ -1,12 +1,9 @@
 package com.tac.guns.item.TransitionalTypes.wearables;
 
-import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.common.NetworkRigManager;
 import com.tac.guns.common.Rig;
-import com.tac.guns.inventory.gear.armor.ArmorRigCapabilityProvider;
 import com.tac.guns.inventory.gear.armor.ArmorRigContainerProvider;
-import com.tac.guns.inventory.gear.armor.ArmorRigInventoryCapability;
 import com.tac.guns.inventory.gear.armor.RigSlotsHandler;
 import com.tac.guns.util.CompatUtil;
 import com.tac.guns.util.CurioCompatUtil;
@@ -20,6 +17,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -33,13 +31,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosCapability;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-public class ArmorRigItem extends Item implements IArmoredRigItem {
+public class ArmorRigItem extends Item implements IArmoredRigItem, ICurio {
     public ArmorRigItem(Properties properties) {
         super(properties);
         numOfRows = 1;
@@ -61,9 +60,14 @@ public class ArmorRigItem extends Item implements IArmoredRigItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         if(world.isClientSide) return super.use(world, player, hand);
-        if(hand != InteractionHand.MAIN_HAND) return InteractionResultHolder.pass(player.getItemInHand(hand));
+        if(hand != InteractionHand.MAIN_HAND)
+            return InteractionResultHolder.pass(player.getItemInHand(hand));
+        if(!(player.getMainHandItem().getItem() instanceof ArmorRigItem))
+            return InteractionResultHolder.pass(player.getItemInHand(hand));;
+
         containerProvider = new ArmorRigContainerProvider(player.getItemInHand(hand));
         NetworkHooks.openGui((ServerPlayer) player, containerProvider);
+
         super.use(world, player, hand);
         return InteractionResultHolder.pass(player.getItemInHand(hand));
     }
@@ -71,11 +75,12 @@ public class ArmorRigItem extends Item implements IArmoredRigItem {
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
     {
-        if(GunMod.curiosLoaded)
-        {
+        //TODO: May22'nd, I am blowing up TaC's default capability, it's a mess, with curios force loaded anyway, might as well stick with it's utilities
+        //if(GunMod.curiosLoaded)
+        //{
             return createBackpackProvider(stack);
-        }
-        return new ArmorRigInventoryCapability();
+        //}
+        //return new ArmorRigInventoryCapability();
     }
     public static ICapabilityProvider createBackpackProvider(ItemStack stack)
     {
@@ -133,8 +138,9 @@ public class ArmorRigItem extends Item implements IArmoredRigItem {
         stack.getOrCreateTag();
         CompoundTag nbt = super.getShareTag(stack);
         if (stack.getItem() instanceof ArmorRigItem) {
-            RigSlotsHandler itemHandler = (RigSlotsHandler) stack.getCapability(ArmorRigCapabilityProvider.capability).resolve().get();
-            nbt.put("storage", itemHandler.serializeNBT());
+            //CurioCapabilityProvider cap = stack.getCapability(CuriosCapability.ITEM).resolve().get();
+            //RigSlotsHandler itemHandler = new RigSlotsHandler();
+            nbt.put("storage", stack.getTag().getList("Items", Tag.TAG_COMPOUND));
         }
 
         return nbt;
@@ -199,6 +205,12 @@ public class ArmorRigItem extends Item implements IArmoredRigItem {
         }
         return this.rig;
     }
+
+    @Override
+    public ItemStack getStack() {
+        return new ItemStack(this);
+    }
+    
 
     /*@Override
     public ArmorBase getArmorModelName() {

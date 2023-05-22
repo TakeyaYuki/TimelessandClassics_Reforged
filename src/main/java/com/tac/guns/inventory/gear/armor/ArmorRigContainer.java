@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
+import top.theillusivec4.curios.api.CuriosCapability;
 
 public class ArmorRigContainer extends AbstractContainerMenu {
 
@@ -20,39 +21,42 @@ public class ArmorRigContainer extends AbstractContainerMenu {
     public ArmorRigContainer(int windowId, Inventory inv, ItemStack item) {
         super(ModContainers.ARMOR_TEST.get(), windowId);
         this.item = item;
-
-        RigSlotsHandler itemHandler = (RigSlotsHandler) this.item.getCapability(InventoryListener.RIG_HANDLER_CAPABILITY).resolve().get();
         this.numRows = ((ArmorRigItem)inv.player.getMainHandItem().getItem()).getNumOfRows();
-        int i = (this.numRows - 4) * 18;
-        //RigSlotsHandler itemHandler = new RigSlotsHandler(maxSlots);
 
+        //RigSlotsHandler itemHandler = new RigSlotsHandler(27, item); //  this.item.getCapability(CuriosCapability.ITEM).resolve().get()
+        RigSlotsHandler itemHandler = new RigSlotsHandler(27);
+        int i = (this.numRows) * 9;
+
+        // Rows only for armor
         for(int j = 0; j < this.numRows; ++j) {
             for(int k = 0; k < 9; ++k) {
                 this.addSlot(new AmmoSlot(itemHandler, k + j * 9, 8 + k * 18, 18 + j * 18));
             }
         }
-
+        // Minecraft default inventories
         for(int l = 0; l < 3; ++l) {
             for(int j1 = 0; j1 < 9; ++j1) {
-                this.addSlot(new Slot(inv, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
+                this.addSlot(new Slot(inv, j1 + l + 9, 8 + j1 * 18, 103 + l * 18 + i));
             }
         }
 
         for(int i1 = 0; i1 < 9; ++i1) {
             this.addSlot(new Slot(inv, i1, 8 + i1 * 18, 161 + i));
         }
+        // TODO:
+        // How to ensure slots save their items past for ItemHandler
+        // Also is Curios capable of assisting any futher? Common inv -> attached to item task
 
-        //this.setAll(itemHandler.getStacks());
     }
 
     public ArmorRigContainer(int windowId, Inventory inv) {
         super(ModContainers.ARMOR_TEST.get(), windowId);
         this.item = item;
 
-        int i = (2 - 4) * 18;
+        int i = (2) * 9;
         //int i = (this.numRows - 4) * 18;
 
-        ItemStackHandler itemHandler = new ItemStackHandler(27);
+        RigSlotsHandler itemHandler = new RigSlotsHandler(27);
         for(int j = 0; j < this.numRows; ++j) {
             for(int k = 0; k < 9; ++k) {
                 this.addSlot(new AmmoSlot(itemHandler, k + j * 9, 8 + k * 18, 18 + j * 18));
@@ -83,12 +87,16 @@ public class ArmorRigContainer extends AbstractContainerMenu {
 
     @Override
     public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player) {
-        if(slotId <= 0) super.clicked(slotId, dragType, clickTypeIn, player);
+        if(slotId < 0) {
+            super.clicked(slotId, dragType, clickTypeIn, player);
+            return;
+        }
         Slot slot = this.slots.get(slotId);
         if(slot.hasItem()) {
             if(slot.getItem().getItem() instanceof ArmorRigItem) return;
         }
         super.clicked(slotId, dragType, clickTypeIn, player);
+        //this.item.getOrCreateTag().
     }
 
     public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -121,6 +129,4 @@ public class ArmorRigContainer extends AbstractContainerMenu {
     public int getNumRows() {
         return numRows;
     }
-
-
 }

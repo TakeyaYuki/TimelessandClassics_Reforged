@@ -18,11 +18,13 @@ import com.tac.guns.enchantment.EnchantmentTypes;
 import com.tac.guns.entity.MissileEntity;
 import com.tac.guns.init.*;
 import com.tac.guns.inventory.gear.IWearableItemHandler;
-import com.tac.guns.inventory.gear.armor.ArmorRigCapabilityProvider;
 import com.tac.guns.inventory.gear.armor.IAmmoItemHandler;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
+import com.tac.guns.item.TransitionalTypes.wearables.CurioCapabilityProvider;
+import com.tac.guns.item.TransitionalTypes.wearables.IArmoredRigItem;
 import com.tac.guns.network.PacketHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -30,9 +32,12 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
@@ -51,10 +56,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.Locale;
 
@@ -406,6 +414,23 @@ public class GunMod
         }
     }
 
+    /*@SubscribeEvent
+    public static void setCapabilities(AttachCapabilitiesEvent<ItemStack> attEvt){
+        ItemStack rigStack = attEvt.getObject();
+        if(rigStack.getItem() instanceof IArmoredRigItem){
+            ICurio rigCurio = new CurioCapabilityProvider(rigStack);
+            attEvt.addCapability(CuriosCapability.ID_ITEM, new ICapabilityProvider() {
+                final LazyOptional<ICurio> curio = LazyOptional.of(() -> rigCurio);
+
+                @Nonnull
+                @Override
+                public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction side) {
+                    return CuriosCapability.ITEM.orEmpty(capability, curio);
+                }
+
+            });
+        }
+    }*/
 
     @SubscribeEvent
     public void onCapabilitySetup(RegisterCapabilitiesEvent event)
