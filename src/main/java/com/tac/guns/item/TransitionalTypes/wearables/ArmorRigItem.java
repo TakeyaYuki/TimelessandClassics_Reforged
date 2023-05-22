@@ -59,6 +59,8 @@ public class ArmorRigItem extends Item implements IArmoredRigItem, ICurio {
     private ArmorRigContainerProvider containerProvider;
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        return super.use(world, player, hand);
+        /*
         if(world.isClientSide) return super.use(world, player, hand);
         if(hand != InteractionHand.MAIN_HAND)
             return InteractionResultHolder.pass(player.getItemInHand(hand));
@@ -69,7 +71,7 @@ public class ArmorRigItem extends Item implements IArmoredRigItem, ICurio {
         NetworkHooks.openGui((ServerPlayer) player, containerProvider);
 
         super.use(world, player, hand);
-        return InteractionResultHolder.pass(player.getItemInHand(hand));
+        return InteractionResultHolder.pass(player.getItemInHand(hand));*/
     }
 
     @Override
