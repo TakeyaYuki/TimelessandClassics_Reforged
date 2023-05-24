@@ -1,0 +1,25 @@
+{
+  "type": "tac:workbench",
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:materials/legendary"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:materials/epic"
+      },
+      "count": 6
+    },
+    {
+      "item": {
+        "tag": "forge:materials/rare"
+      },
+      "count": 10
+    }
+  ],
+  "result": {
+    "item": "tac:timeless_50"
+  }
+}

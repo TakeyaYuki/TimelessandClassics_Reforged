@@ -209,15 +209,6 @@ public final class InputHandler
 		}
 	}*/
 
-	@SubscribeEvent()
-	public static void onScreenTick(TickEvent.ClientTickEvent tickEvent)
-	{
-		if(Minecraft.getInstance().screen instanceof KeyBindsScreen) {
-			//updateMappers();
-			saveTo( ClientHandler.keyBindsFile );
-		}
-	}
-
 	@SubscribeEvent( priority = EventPriority.HIGH )
 	public static void onKeyInput( InputEvent.KeyInputEvent evt )
 	{

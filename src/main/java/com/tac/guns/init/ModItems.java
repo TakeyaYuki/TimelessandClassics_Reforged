@@ -111,6 +111,7 @@ public class ModItems
     public static final RegistryObject<Item> BULLET_308 = REGISTER.register("bullet_308", TimelessAmmoItem::new);
     public static final RegistryObject<Item> BULLET_556 = REGISTER.register("nato_556_bullet", TimelessAmmoItem::new);
     public static final RegistryObject<Item> BULLET_9 = REGISTER.register("9mm_round", TimelessAmmoItem::new);
+    public static final RegistryObject<Item> BULLET_46x30 = REGISTER.register("46x30", TimelessAmmoItem::new);
     public static final RegistryObject<Item> BULLET_10g = REGISTER.register("10_gauge_round", TimelessSGAmmoItem::new);
     public static final RegistryObject<Item> BULLET_58x42 = REGISTER.register("58x42", TimelessAmmoItem::new);
     public static final RegistryObject<Item> BULLET_762x25 = REGISTER.register("762x25", TimelessAmmoItem::new);
