@@ -6,11 +6,9 @@ import com.tac.guns.common.Gun;
 import com.tac.guns.common.container.AttachmentContainer;
 import com.tac.guns.init.ModSounds;
 import com.tac.guns.init.ModSyncedDataKeys;
-import com.tac.guns.item.GunItem;
-import com.tac.guns.item.IrDeviceItem;
-import com.tac.guns.item.ScopeItem;
-import com.tac.guns.item.SideRailItem;
+import com.tac.guns.item.*;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
+import com.tac.guns.item.TransitionalTypes.TimelessPistolGunItem;
 import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -86,6 +84,11 @@ public class AttachmentSlot extends Slot
                 ModSyncedDataKeys.RELOADING)) {
             return false;
         }
+        GunItem item = (GunItem) this.weapon.getItem();
+        Gun modifiedGun = item.getModifiedGun(this.weapon);
+        if (!modifiedGun.canAttachType(((IAttachment) stack.getItem()).getType()))
+            return false;
+
         if(this.player.getMainHandItem().getItem() instanceof ScopeItem || this.player.getMainHandItem().getItem() instanceof SideRailItem || this.player.getMainHandItem().getItem() instanceof IrDeviceItem)
             if(stack.getItem() instanceof DyeItem)
                 return true;
@@ -93,14 +96,17 @@ public class AttachmentSlot extends Slot
                 return false;
         else
         {
-            GunItem item = (GunItem) this.weapon.getItem();
-            Gun modifiedGun = item.getModifiedGun(this.weapon);
-            if (stack.getItem() instanceof IAttachment && ((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type))
-                return true;
-            else if (types != null && stack.getItem() instanceof IAttachment) {
-                for (IAttachment.Type x : types) {
-                    if (((IAttachment) stack.getItem()).getType() == x)
-                        return true;
+            if(stack.getItem() instanceof IAttachment) {
+                if (((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type))
+                    return true;
+                else if (this.weapon.getItem() instanceof TimelessPistolGunItem && this.type == IAttachment.Type.PISTOL_SCOPE) {
+                    return stack.getItem() instanceof PistolScopeItem;
+                }
+                else if (types != null && stack.getItem() instanceof IAttachment) {
+                    for (IAttachment.Type x : types) {
+                        if (((IAttachment) stack.getItem()).getType() == x)
+                            return true;
+                    }
                 }
             }
             return false;
