@@ -567,7 +567,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
         if(headshot)
         {
             damage *= Config.COMMON.gameplay.headShotDamageMultiplier.get();
-            //damage *= this.projectile.getGunHeadDamage();
+            damage *= this.projectile.getGunHeadDamage();
             damage *= GunModifierHelper.getAdditionalHeadshotDamage(this.weapon) == 0F ? 1F : GunModifierHelper.getAdditionalHeadshotDamage(this.weapon);
         }
 

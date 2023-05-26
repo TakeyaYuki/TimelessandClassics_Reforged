@@ -99,7 +99,10 @@ public class TimelessGunItem extends GunItem {
                 double armorPen = (1-(1 - Config.COMMON.gameplay.percentDamageIgnoresStandardArmor.get() * gun.getGun().getProjectile().getGunArmorIgnore()))*100;
                 tooltip.add((new TranslatableComponent("info.tac.armorPen", new TranslatableComponent(String.format("%.1f", armorPen) + "%").withStyle(ChatFormatting.RED)).withStyle(ChatFormatting.DARK_AQUA)));
 
-                int headDamgeModifier = (int)(Config.COMMON.gameplay.headShotDamageMultiplier.get() * gun.getGun().getProjectile().getGunHeadDamage())*100;
+                int headDamgeModifier = (int)((Config.COMMON.gameplay.headShotDamageMultiplier.get() +
+                        (gun.getGun().getProjectile().getGunHeadDamage()+1) +
+                        GunModifierHelper.getAdditionalHeadshotDamage(stack) == 0F ? 1F : GunModifierHelper.getAdditionalHeadshotDamage(stack)))*100;
+                headDamgeModifier = (int)(Config.COMMON.gameplay.headShotDamageMultiplier.get() * gun.getGun().getProjectile().getGunHeadDamage())*100;
                 tooltip.add((new TranslatableComponent("info.tac.headDamageModifier", new TranslatableComponent(String.format("%d", headDamgeModifier) + "%").withStyle(ChatFormatting.RED)).withStyle(ChatFormatting.DARK_AQUA)));
 
                 float speed = ServerPlayHandler.calceldGunWeightSpeed(gun.getGun(), stack);
