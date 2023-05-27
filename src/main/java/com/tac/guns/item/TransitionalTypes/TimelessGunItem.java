@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import com.tac.guns.util.GunModifierHelper;
-
+import java.text.NumberFormat;
 
 public class TimelessGunItem extends GunItem {
     private final IGunModifier[] modifiers;
@@ -99,11 +99,12 @@ public class TimelessGunItem extends GunItem {
                 double armorPen = (1-(1 - Config.COMMON.gameplay.percentDamageIgnoresStandardArmor.get() * gun.getGun().getProjectile().getGunArmorIgnore()))*100;
                 tooltip.add((new TranslatableComponent("info.tac.armorPen", new TranslatableComponent(String.format("%.1f", armorPen) + "%").withStyle(ChatFormatting.RED)).withStyle(ChatFormatting.DARK_AQUA)));
 
-                int headDamgeModifier = (int)((Config.COMMON.gameplay.headShotDamageMultiplier.get() +
-                        (gun.getGun().getProjectile().getGunHeadDamage()+1) +
-                        GunModifierHelper.getAdditionalHeadshotDamage(stack) == 0F ? 1F : GunModifierHelper.getAdditionalHeadshotDamage(stack)))*100;
-                headDamgeModifier = (int)(Config.COMMON.gameplay.headShotDamageMultiplier.get() * gun.getGun().getProjectile().getGunHeadDamage())*100;
-                tooltip.add((new TranslatableComponent("info.tac.headDamageModifier", new TranslatableComponent(String.format("%d", headDamgeModifier) + "%").withStyle(ChatFormatting.RED)).withStyle(ChatFormatting.DARK_AQUA)));
+                NumberFormat defaultFormat = NumberFormat.getPercentInstance();
+                defaultFormat.setMinimumFractionDigits(1);
+
+                double headDamgeModifier;
+                headDamgeModifier = (double)(((Config.COMMON.gameplay.headShotDamageMultiplier.get()-1) + (gun.getGun().getProjectile().getGunHeadDamage())));
+                tooltip.add((new TranslatableComponent("info.tac.headDamageModifier", new TranslatableComponent(defaultFormat.format(headDamgeModifier) + "%").withStyle(ChatFormatting.RED)).withStyle(ChatFormatting.DARK_AQUA)));
 
                 float speed = ServerPlayHandler.calceldGunWeightSpeed(gun.getGun(), stack);
                 speed = Math.max(Math.min(speed, 0.1F), 0.075F);

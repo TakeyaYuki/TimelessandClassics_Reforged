@@ -566,9 +566,9 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
 
         if(headshot)
         {
-            damage *= Config.COMMON.gameplay.headShotDamageMultiplier.get();
-            damage *= this.projectile.getGunHeadDamage();
-            damage *= GunModifierHelper.getAdditionalHeadshotDamage(this.weapon) == 0F ? 1F : GunModifierHelper.getAdditionalHeadshotDamage(this.weapon);
+            damage *= Config.COMMON.gameplay.headShotDamageMultiplier.get(); // We expect >1
+            damage *= 1+this.projectile.getGunHeadDamage(); // We expect >0 as a percent EXTRA
+            damage *= GunModifierHelper.getAdditionalHeadshotDamage(this.weapon) == 0F ? 1F : GunModifierHelper.getAdditionalHeadshotDamage(this.weapon); // Additional damage, we expect NO PERCENTAGE
         }
 
         DamageSource source = new DamageSourceProjectile("bullet", this, shooter, weapon).setProjectile();
@@ -592,6 +592,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
         }
 
         /* Send blood particle to tracking clients. */
+        //TODO: Add persistant blood using projectile hole tech
         PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), new MessageBlood(hitVec.x, hitVec.y, hitVec.z));
     }
 

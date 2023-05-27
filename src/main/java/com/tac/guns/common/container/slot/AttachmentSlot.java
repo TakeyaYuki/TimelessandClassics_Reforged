@@ -84,11 +84,6 @@ public class AttachmentSlot extends Slot
                 ModSyncedDataKeys.RELOADING)) {
             return false;
         }
-        GunItem item = (GunItem) this.weapon.getItem();
-        Gun modifiedGun = item.getModifiedGun(this.weapon);
-        if (!modifiedGun.canAttachType(((IAttachment) stack.getItem()).getType()))
-            return false;
-
         if(this.player.getMainHandItem().getItem() instanceof ScopeItem || this.player.getMainHandItem().getItem() instanceof SideRailItem || this.player.getMainHandItem().getItem() instanceof IrDeviceItem)
             if(stack.getItem() instanceof DyeItem)
                 return true;
@@ -96,6 +91,11 @@ public class AttachmentSlot extends Slot
                 return false;
         else
         {
+            GunItem item = (GunItem) this.weapon.getItem();
+            Gun modifiedGun = item.getModifiedGun(this.weapon);
+            if (!modifiedGun.canAttachType(((IAttachment) stack.getItem()).getType()))
+                return false;
+
             if(stack.getItem() instanceof IAttachment) {
                 if (((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type))
                     return true;

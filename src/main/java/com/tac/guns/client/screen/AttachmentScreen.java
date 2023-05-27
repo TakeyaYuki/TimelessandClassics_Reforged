@@ -65,7 +65,9 @@ public class AttachmentScreen extends AbstractContainerScreen<AttachmentContaine
         {
             if(SyncedEntityData.instance().get(Minecraft.getInstance().player, ModSyncedDataKeys.RELOADING))
                 Minecraft.getInstance().setScreen(null);
-            if(!(this.minecraft.player.getMainHandItem().getItem() instanceof GunItem) && !(this.minecraft.player.getMainHandItem().getItem() instanceof ScopeItem))
+            if(!(this.minecraft.player.getMainHandItem().getItem() instanceof GunItem) && !(this.minecraft.player.getMainHandItem().getItem() instanceof ScopeItem) &&
+                    !(this.minecraft.player.getMainHandItem().getItem() instanceof SideRailItem) &&
+                    !(this.minecraft.player.getMainHandItem().getItem() instanceof IrDeviceItem))
             {
                 Minecraft.getInstance().setScreen(null);
             }
