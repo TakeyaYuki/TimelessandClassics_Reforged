@@ -64,18 +64,14 @@ public class scar_mk20_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.SCAR_MK20_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() == ModItems.BASIC_LASER.orElse(ItemStack.EMPTY.getItem())) {
-                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_MINI_LASER.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, light, overlay);
-                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_MINI_LASER_BEAM.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
+                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_B_LASER.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, light, overlay);
+                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_B_LASER_BEAM.getModel(), Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
             }
             else if (Gun.getAttachment(IAttachment.Type.SIDE_RAIL, stack).getItem() != ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem()) || Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack).getItem() == ModItems.IR_LASER.orElse(ItemStack.EMPTY.getItem())) {
-                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_IR_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
+                RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_IR_LASER_DEVICE.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, light, overlay);
                 matrices.pushPose();
                 if(transformType.firstPerson()) {
-                    // TODO: Build some sort of scaler for this
-                    matrices.translate(0, 0, -0.35);
-                    matrices.scale(1, 1, 9);
-                    matrices.translate(0, 0, 0.35);
-                    RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_L_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
+                    RenderUtil.renderLaserModuleModel(SpecialModels.SCAR_MK20_IR_LASER.getModel(), Gun.getAttachment(IAttachment.Type.IR_DEVICE, stack), matrices, renderBuffer, 15728880, overlay); // 15728880 For fixed max light
                 }
                 matrices.popPose();
             }
