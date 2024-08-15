@@ -116,7 +116,7 @@ public class TimelessGunItem extends GunItem {
                 tooltip.add((new TranslationTextComponent("info.tac.current_level").append(new TranslationTextComponent(" " + tagCompound.getInt("level") + " : " + String.format("%.2f", percentageToNextLevel) + "%")))
                         .mergeStyle(TextFormatting.GRAY).mergeStyle(TextFormatting.BOLD));
             }
-            tooltip.add((new TranslationTextComponent("info.tac.attachment_help", (new KeybindTextComponent("key.tac.attachments")).getString().toUpperCase(Locale.ENGLISH))).mergeStyle(TextFormatting.YELLOW));
+            // tooltip.add((new TranslationTextComponent("info.tac.attachment_help", (new KeybindTextComponent("key.tac.attachments")).getString().toUpperCase(Locale.ENGLISH))).mergeStyle(TextFormatting.YELLOW));
             if (gun.getGun().canAttachType(IAttachment.Type.PISTOL_SCOPE))
                 tooltip.add((new TranslationTextComponent("info.tac.pistolScope", new TranslationTextComponent("MiniScope").mergeStyle(TextFormatting.BOLD)).mergeStyle(TextFormatting.LIGHT_PURPLE)));
             if (gun.getGun().canAttachType(IAttachment.Type.IR_DEVICE))
